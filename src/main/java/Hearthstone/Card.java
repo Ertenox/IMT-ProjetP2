@@ -27,6 +27,8 @@ public class Card {
 
         // Invoquer le monstre sur le plateau
         Board currentBoard = monster.getBoard();
+        System.out.print(currentHero.getName());
+
         if (currentHero.getID() == 0){
             currentBoard.addPlayerMonster(monster);
         }
