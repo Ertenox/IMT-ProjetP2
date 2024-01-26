@@ -1,5 +1,5 @@
 package Hearthstone;
-
+import java.util.Scanner;
 public class Game {
     private Board playerBoard;
     private Board opponentBoard;
@@ -16,7 +16,11 @@ public class Game {
     // Méthode pour démarrer le jeu
     public void startGame() {
         // Initialiser le plateau, les Heros, etc.
-        // ...
+        System.out.println("Début du jeu.");
+        opponentHero.setMana(1);
+        playerHero.setMana(1);
+
+
 
         // Commencer les tours de jeu
         while (playerHero.isAlive() && opponentHero.isAlive()) {
@@ -38,7 +42,7 @@ public class Game {
         currentHero.useHeroPower(opponentHero);
 
         // Poser une carte sur le plateau (simulé ici)
-        Card card = new Card("Nom de la carte", new Monster(1, "Nom du monstre", 5, 3, MonsterType.CLASSIC, currentBoard));
+        Card card = new Card("Nom de la carte", 1, "Carte",  new Monster("1", 1, 5),currentHero);
         card.playCard();
 
         // Jouer le tour pour chaque monstre sur le plateau
@@ -60,9 +64,27 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        // Exemple d'utilisation de la classe Game
-        Hero playerHero = new Hero(1, "Joueur", 30, new ());
-        Hero opponentHero = new Hero(2, "Adversaire", 30, new OpponentSpecialAbility());
+        // Créer les Heros
+        String name = "";
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Liste des heros: \n 1- Mage \n 2- Guerrier");
+        System.out.println("Choisissez votre hero: ");
+        int choix = sc.nextInt();
+        if (choix == 1) {
+            System.out.println("Vous avez choisi le Mage");
+             name = "Mage";
+        } else if (choix == 2) {
+            System.out.println("Vous avez choisi le Guerrier");
+             name = "Guerrier";
+
+        } else {
+            System.out.println("Choix invalide");
+            System.exit(0);
+        }
+        System.out.println("Vous avez choisi le " + name);
+
+        Hero playerHero = new PlayerHero(name, 20, new PlayerHeroPower(name), 2);
+        Hero opponentHero = new OpponentHero(name, 20, new OpponentHeroPower(name), 2);
 
         Game game = new Game(playerHero, opponentHero);
         game.startGame();

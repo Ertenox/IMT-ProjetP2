@@ -5,12 +5,12 @@ public abstract class Hero implements Entity{
     private int id;
     private String name;
     private int hp;
-    private String heroPower;
+    private HeroPower heroPower;
     private int heroPowerCost;
 
     private int mana;
 
-    public Hero(String name, int hp, String heroPower, int heroPowerCost) {
+    public Hero(String name, int hp, HeroPower heroPower, int heroPowerCost) {
         this.id = idCounter++;
         this.name = name;
         this.hp = hp;
@@ -33,7 +33,7 @@ public abstract class Hero implements Entity{
         return hp;
     }
 
-    public String getHeroPower() {
+    public HeroPower getHeroPower() {
         return heroPower;
     }
 
