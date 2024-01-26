@@ -8,13 +8,15 @@ public class PlayerHero extends Hero{
     @Override
     public void useHeroPower(Entity target) {
         if (getMana() < getHeroPowerCost()) {
-            System.out.println("You don't have enough mana to use your hero power.");
+            System.out.println("Pas assez de mana pour le pouvoir.");
             return;
         }
         setMana(getMana() - getHeroPowerCost());
         getHeroPower().usePower(this, target);
 
     }
+
+
 
     @Override
     public int getID() {

@@ -8,6 +8,7 @@ public class Card {
 
     private Hero hero;
 
+
     public Card(String name, int manaCost, String description, Monster monster, Hero hero) {
         this.name = name;
         this.manaCost = manaCost;
@@ -26,7 +27,7 @@ public class Card {
 
         // Invoquer le monstre sur le plateau
         Board currentBoard = monster.getBoard();
-        currentBoard.addPlayerMonster(monster); // Supposons que ce soit toujours le joueur qui joue la carte
+        currentBoard.addPlayerMonster(monster);
         System.out.println("Le monstre " + monster.getName() + " est invoqué sur le plateau.");
     }
 }

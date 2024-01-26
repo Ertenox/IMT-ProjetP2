@@ -9,6 +9,8 @@ public class Monster implements Entity, Attacker{
     private Board board;
 
 
+
+
     public Monster(String name, int hp, int attack, Board board) {
         this.id = idCounter++;
         this.name = name;

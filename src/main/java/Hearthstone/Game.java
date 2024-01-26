@@ -44,7 +44,7 @@ public class Game {
 
     // Méthode pour démarrer le jeu
     public void startGame() {
-        // Initialiser le plateau, les Heros, etc.
+
         System.out.println("Début du jeu.");
         opponentHero.setMana(1);
         playerHero.setMana(1);
@@ -55,7 +55,7 @@ public class Game {
         while (playerHero.isAlive() && opponentHero.isAlive()) {
             playTurn(playerHero, opponentHero, playerBoard, opponentBoard);
             playTurn(opponentHero, playerHero, opponentBoard, playerBoard);
-            // Vous pouvez ajouter d'autres logiques ici selon les règles du jeu
+
         }
 
         // Afficher le résultat du jeu
@@ -82,11 +82,19 @@ public class Game {
             currentHero.playCard(choixCarte - 1, currentBoard);
         } else if (choix == 3) {
             System.out.println("Vous avez choisi de passer le tour");
-        } else {
+        }
+        else if (choix == 4) {
+            //afficher le board
+            System.out.println("Vous avez choisi d'afficher le board");
+            currentBoard.displayBoard(currentHero, opponentHero);
+
+        }
+        else {
             System.out.println("Choix invalide");
             System.exit(0);
         }
         // Poser une carte sur le plateau (simulé ici)
+        currentHero.playCard(0, currentBoard);
 
 
         // Vérifier si le Hero adverse est mis KO
