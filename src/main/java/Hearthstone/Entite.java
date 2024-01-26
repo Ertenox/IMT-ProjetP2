@@ -1,4 +1,4 @@
-package hearstone;
+package Hearthstone;
 
 public interface Entite {
 }
