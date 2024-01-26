@@ -16,17 +16,17 @@ public class Card {
         this.hero = hero;
     }
 
-    public void playCard() {
-        //first check if the player has enough mana
-        //if not, print an error message and return
-        //if yes, reduce the player's mana by the card's mana cost
-        //then play the card's monster
-       if (hero.getMana() < manaCost) {
-           System.out.println("You don't have enough mana to play this card.");
-           return;
-       }
-       hero.setMana(hero.getMana() - manaCost);
-       monster.playTurn();
+    public String getName() {
+        return name;
+    }
 
+    public void playCard() {
+        // Logique pour jouer la carte
+        System.out.println("La carte " + name + " est jouée.");
+
+        // Invoquer le monstre sur le plateau
+        Board currentBoard = monster.getBoard();
+        currentBoard.addPlayerMonster(monster); // Supposons que ce soit toujours le joueur qui joue la carte
+        System.out.println("Le monstre " + monster.getName() + " est invoqué sur le plateau.");
     }
 }

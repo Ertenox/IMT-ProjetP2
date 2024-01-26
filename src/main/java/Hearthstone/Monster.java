@@ -6,18 +6,22 @@ public class Monster implements Entity, Attacker{
     private String name;
     private int hp;
     private int attack;
+    private Board board;
 
-public Monster(String name, int hp, int attack) {
+
+    public Monster(String name, int hp, int attack, Board board) {
         this.id = idCounter++;
         this.name = name;
         this.hp = hp;
         this.attack = attack;
+        this.board = board;
     }
 
     public void playTurn() {
-        System.out.println("Monster " + this.name + " is playing its turn.");
+        // Attaquer le héros adverse
+        attack(board.getOpponent(this));
 
-    }
+        }
 
     public int getID() {
         return id;
@@ -36,6 +40,10 @@ public Monster(String name, int hp, int attack) {
         return attack;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
 
 
     @Override
@@ -48,8 +56,13 @@ public Monster(String name, int hp, int attack) {
         return this.hp > 0;
     }
 
+
     @Override
     public void attack(Entity target) {
-        target.takeDamage(this.attack);
+        // Vérifier si la cible est valide
+        if (target != null) {
+            // Infliger des dégâts à la cible
+            target.takeDamage(this.attack);
+        }
     }
 }

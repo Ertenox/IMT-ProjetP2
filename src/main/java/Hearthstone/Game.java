@@ -1,16 +1,45 @@
 package Hearthstone;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 public class Game {
-    private Board playerBoard;
-    private Board opponentBoard;
+    public Board playerBoard;
+    public Board opponentBoard;
     private Hero playerHero;
     private Hero opponentHero;
+
+    private List<Card> playerDeck;
+    private List<Card> opponentDeck;
 
     public Game(Hero playerHero, Hero opponentHero) {
         this.playerBoard = new Board();
         this.opponentBoard = new Board();
         this.playerHero = playerHero;
         this.opponentHero = opponentHero;
+        this.playerDeck = generateDeck();
+        this.opponentDeck = generateDeck();
+        distributeCards(playerDeck, playerHero);
+        distributeCards(opponentDeck, opponentHero);
+    }
+
+    private List<Card> generateDeck() {
+        // Logique pour générer une liste de cartes
+        // Vous devrez personnaliser cette logique en fonction de vos besoins
+        List<Card> deck = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Monster monster = new Monster("Monstre " + i, 5, 3, playerBoard);
+            Card card = new Card("Carte " + i, 2, "Description de la carte " + i, monster, playerHero);
+            deck.add(card);
+        }
+        return deck;
+    }
+
+    private void distributeCards(List<Card> deck, Hero Hero) {
+        // Logique pour distribuer des cartes au Hero
+        for (int i = 0; i < 10; i++) {
+            Card card = deck.remove(0); // Retirez la première carte du deck
+            Hero.addCardToHand(card);
+        }
     }
 
     // Méthode pour démarrer le jeu
@@ -35,20 +64,30 @@ public class Game {
 
     // Méthode pour simuler un tour de jeu
     private void playTurn(Hero currentHero, Hero opponentHero, Board currentBoard, Board opponentBoard) {
-        // Afficher des informations sur l'état du jeu
+        opponentHero.setMana(opponentHero.getMana() + 1);
+        currentHero.setMana(currentHero.getMana() + 1);
         System.out.println("Tour de " + currentHero.getName());
 
-        // Utiliser la capacité spéciale du Hero
-        currentHero.useHeroPower(opponentHero);
-
-        // Poser une carte sur le plateau (simulé ici)
-        Card card = new Card("Nom de la carte", 1, "Carte",  new Monster("1", 1, 5),currentHero);
-        card.playCard();
-
-        // Jouer le tour pour chaque monstre sur le plateau
-        for (Monster monster : currentBoard.getPlayerMonsters()) {
-            monster.playTurn();
+        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHp()+ "\n Points de mana: "+ currentHero.getMana()+"\n Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour");
+        Scanner sc = new Scanner(System.in);
+        int choix = sc.nextInt();
+        if (choix == 1) {
+            System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
+            currentHero.useHeroPower(opponentHero);
+        } else if (choix == 2) {
+            System.out.println("Vous avez choisi de jouer une carte");
+            currentHero.viewHand();
+            System.out.println("Choisissez une carte à jouer: ");
+            int choixCarte = sc.nextInt();
+            currentHero.playCard(choixCarte - 1, currentBoard);
+        } else if (choix == 3) {
+            System.out.println("Vous avez choisi de passer le tour");
+        } else {
+            System.out.println("Choix invalide");
+            System.exit(0);
         }
+        // Poser une carte sur le plateau (simulé ici)
+
 
         // Vérifier si le Hero adverse est mis KO
         if (!opponentHero.isAlive()) {
@@ -89,4 +128,6 @@ public class Game {
         Game game = new Game(playerHero, opponentHero);
         game.startGame();
     }
+
+
 }

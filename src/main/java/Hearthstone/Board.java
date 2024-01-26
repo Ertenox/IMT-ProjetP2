@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
+    private Hero playerHero;
+    private Hero opponentHero;
     private List<Monster> playerMonsters;
     private List<Monster> opponentMonsters;
 
@@ -50,6 +52,14 @@ public class Board {
             }
         }
         return false;
+    }
+    public Hero getOpponent(Monster monster) {
+        // Logique pour obtenir l'adversaire du monstre sur le plateau
+        if (monster.getBoard() == this) {
+            return opponentHero;
+        } else {
+            return playerHero;
+        }
     }
 
 }
