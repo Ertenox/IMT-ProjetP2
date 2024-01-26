@@ -37,14 +37,14 @@ public abstract class Hero implements Entity{
         }
     }
 
-    public void playCard(int cardIndex, Board board) {
+    public void playCard(int cardIndex, Board board, Hero currentHero) {
         // Vérifier si l'index est valide
         if (cardIndex >= 0 && cardIndex < hand.size()) {
             // Récupérer la carte à jouer
             Card cardToPlay = hand.remove(cardIndex);
 
             // Jouer la carte sur le plateau
-            cardToPlay.playCard();
+            cardToPlay.playCard(currentHero);
         } else {
             System.out.println("Index de carte invalide.");
         }

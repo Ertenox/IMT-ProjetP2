@@ -79,7 +79,8 @@ public class Game {
             currentHero.viewHand();
             System.out.println("Choisissez une carte à jouer: ");
             int choixCarte = sc.nextInt();
-            currentHero.playCard(choixCarte - 1, currentBoard);
+            currentHero.playCard(choixCarte - 1, currentBoard, currentHero);
+
         } else if (choix == 3) {
             System.out.println("Vous avez choisi de passer le tour");
         }
@@ -94,7 +95,6 @@ public class Game {
             System.exit(0);
         }
         // Poser une carte sur le plateau (simulé ici)
-        currentHero.playCard(0, currentBoard);
 
 
         // Vérifier si le Hero adverse est mis KO
@@ -104,7 +104,6 @@ public class Game {
         }
     }
 
-    // Méthode pour afficher le résultat du jeu
     private void displayGameResult() {
         System.out.println("Fin du jeu.");
         // Vous pouvez ajouter d'autres logiques ici pour afficher le résultat final
@@ -113,9 +112,10 @@ public class Game {
     public static void main(String[] args) {
         // Créer les Heros
         String name = "";
+        String name2 = "";
         Scanner sc = new Scanner(System.in);
         System.out.println("Liste des heros: \n 1- Mage \n 2- Guerrier");
-        System.out.println("Choisissez votre hero: ");
+        System.out.println("Joueur 1: Choisissez votre hero: ");
         int choix = sc.nextInt();
         if (choix == 1) {
             System.out.println("Vous avez choisi le Mage");
@@ -129,9 +129,22 @@ public class Game {
             System.exit(0);
         }
         System.out.println("Vous avez choisi le " + name);
+        System.out.println("Joueur 2: Choisissez votre hero: ");
+        int choix2 = sc.nextInt();
+        if (choix2 == 1) {
+            System.out.println("Vous avez choisi le Mage");
+            name2 = "Mage";
+        } else if (choix2 == 2) {
+            System.out.println("Vous avez choisi le Guerrier");
+            name2 = "Guerrier";
+
+        } else {
+            System.out.println("Choix invalide");
+            System.exit(0);
+        }
 
         Hero playerHero = new PlayerHero(name, 20, new PlayerHeroPower(name), 2);
-        Hero opponentHero = new OpponentHero(name, 20, new OpponentHeroPower(name), 2);
+        Hero opponentHero = new OpponentHero(name2, 20, new OpponentHeroPower(name), 2);
 
         Game game = new Game(playerHero, opponentHero);
         game.startGame();

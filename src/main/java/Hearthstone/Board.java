@@ -62,12 +62,12 @@ public class Board {
         }
     }
 
-    public void displayBoard(Hero playerhero, Hero opponenthero) {
+    public void displayBoard(Hero playerHero, Hero opponentHero){
         System.out.println("Plateau du joueur:");
-        displayHero(playerhero, playerMonsters);
+        displayHero(playerHero, playerMonsters);
 
-        System.out.println("Plateau de l'adversaire:");
-        displayHero(opponenthero, opponentMonsters);
+        System.out.println("\nPlateau de l'adversaire:");
+        displayHero(opponentHero, opponentMonsters);
     }
 
     private void displayHero(Hero hero, List<Monster> monsters) {
@@ -76,10 +76,10 @@ public class Board {
             return;
         }
 
-        System.out.println("╔══════════════╗");
+        System.out.println("╔════════════╗");
         System.out.println("║ " + centerString(hero.getName(), 14) + " ║");
         System.out.println("║ HP: " + centerString(Integer.toString(hero.getHp()), 10) + " ║");
-        System.out.println("╠══════════════╣");
+        System.out.println("╠════════════╣");
 
         if (monsters == null || monsters.isEmpty()) {
             System.out.println("║ Aucun monstre  ║");
@@ -93,12 +93,16 @@ public class Board {
             }
         }
 
-        System.out.println("╚══════════════╝");
+        System.out.println("╚════════════╝");
     }
+
+// Reste du code inchangé...
+
 
     private String centerString(String str, int length) {
         int pad = (length - str.length()) / 2;
         return String.format("%" + (pad + str.length()) + "s", str);
     }
+
 
 }

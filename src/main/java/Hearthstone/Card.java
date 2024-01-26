@@ -21,13 +21,18 @@ public class Card {
         return name;
     }
 
-    public void playCard() {
+    public void playCard(Hero currentHero) {
         // Logique pour jouer la carte
         System.out.println("La carte " + name + " est jouée.");
 
         // Invoquer le monstre sur le plateau
         Board currentBoard = monster.getBoard();
-        currentBoard.addPlayerMonster(monster);
+        if (currentHero.getID() == 0){
+            currentBoard.addPlayerMonster(monster);
+        }
+        else{
+            currentBoard.addOpponentMonster(monster);
+        }
         System.out.println("Le monstre " + monster.getName() + " est invoqué sur le plateau.");
     }
 }
