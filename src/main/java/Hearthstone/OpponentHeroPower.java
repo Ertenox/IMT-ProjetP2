@@ -13,7 +13,7 @@ public class OpponentHeroPower implements HeroPower {
         System.out.println(hero.getName() + " utilise son pouvoir de joueur.");
         if (type.equals("Mage")) {
             System.out.println("Le pouvoir du Mage inflige 1 point de dégât à l'adversaire.");
-            target.takeDamage(20);
+            target.takeDamage(1);
 
         } else if (type.equals("Guerrier")) {
             System.out.println("Le pouvoir du Guerrier inflige 2 points de dégât à l'adversaire.");
