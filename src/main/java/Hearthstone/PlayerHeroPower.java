@@ -16,7 +16,7 @@ public class PlayerHeroPower implements HeroPower {
 
         } else if (type.equals("Guerrier")) {
             System.out.println("Le pouvoir du Guerrier inflige 2 points de dégât à l'adversaire.");
-            target.takeDamage(1);
+            target.takeDamage(2);
         }
 }
 }
