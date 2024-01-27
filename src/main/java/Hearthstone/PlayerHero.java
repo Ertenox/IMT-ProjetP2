@@ -20,11 +20,11 @@ public class PlayerHero extends Hero{
 
     @Override
     public int getID() {
-        return 0;
+        return this.id;
     }
 
     @Override
     public int getHP() {
-        return 0;
+        return this.hp;
     }
 }

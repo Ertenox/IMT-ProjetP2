@@ -1,7 +1,7 @@
 package Hearthstone;
 
 public class OpponentHero extends Hero{
-    public OpponentHero(String name, int hp, OpponentHeroPower heroPower, int heroPowerCost){
+    public OpponentHero( String name, int hp, OpponentHeroPower heroPower, int heroPowerCost){
         super(name, hp, heroPower, heroPowerCost);
     }
 
@@ -18,11 +18,12 @@ public class OpponentHero extends Hero{
 
     @Override
     public int getID() {
-        return 0;
+        return this.id;
     }
 
     @Override
     public int getHP() {
-        return 0;
+
+        return this.hp;
     }
 }

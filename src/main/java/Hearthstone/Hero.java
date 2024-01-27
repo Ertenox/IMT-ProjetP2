@@ -5,9 +5,9 @@ import java.util.List;
 
 public abstract class Hero implements Entity{
     private static int idCounter = 0;
-    private int id;
+    int id;
     private String name;
-    private int hp;
+    int hp;
     private HeroPower heroPower;
     private int heroPowerCost;
 
@@ -33,12 +33,17 @@ public abstract class Hero implements Entity{
         // Afficher la main du champion
         System.out.println("Main de " + getName() + ":");
         for (int i = 0; i < hand.size(); i++) {
-            System.out.println((i + 1) + ". " + hand.get(i).getName());
+            System.out.println((i + 1) + ". " + hand.get(i).getName() + " (" + hand.get(i).getManaCost() + " mana)");
         }
     }
 
     public void playCard(int cardIndex, Board board, Hero currentHero) {
         // Vérifier si l'index est valide
+        //verifier si le joueur a assez de mana
+        if (getMana() < hand.get(cardIndex).getManaCost()) {
+            System.out.println("Pas assez de mana pour jouer cette carte.");
+            return;
+        }
         if (cardIndex >= 0 && cardIndex < hand.size()) {
             // Récupérer la carte à jouer
             Card cardToPlay = hand.remove(cardIndex);
@@ -50,7 +55,7 @@ public abstract class Hero implements Entity{
         }
     }
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 
@@ -59,7 +64,7 @@ public abstract class Hero implements Entity{
         return name;
     }
 
-    public int getHp() {
+    public int getH() {
         return hp;
     }
 

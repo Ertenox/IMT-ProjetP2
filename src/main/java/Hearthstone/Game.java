@@ -5,38 +5,61 @@ import java.util.List;
 public class Game {
     public Board playerBoard;
     public Board opponentBoard;
-    private Hero playerHero;
-    private Hero opponentHero;
+    private PlayerHero playerHero;
+    private OpponentHero opponentHero;
 
     private List<Card> playerDeck;
     private List<Card> opponentDeck;
 
-    public Game(Hero playerHero, Hero opponentHero) {
+    public Game(PlayerHero playerHero, OpponentHero opponentHero) {
         this.playerBoard = new Board();
         this.opponentBoard = new Board();
         this.playerHero = playerHero;
         this.opponentHero = opponentHero;
-        this.playerDeck = generateDeck();
-        this.opponentDeck = generateDeck();
-        distributeCards(playerDeck, playerHero);
-        distributeCards(opponentDeck, opponentHero);
+        this.playerDeck = generateDeckPlayer();
+        this.opponentDeck = generateDeckOpponent();
+        distributeCardsPlayer(playerDeck, playerHero);
+        distributeCardsOpponent(opponentDeck, opponentHero);
     }
 
-    private List<Card> generateDeck() {
-        // Logique pour générer une liste de cartes
-        // Vous devrez personnaliser cette logique en fonction de vos besoins
-        List<Card> deck = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Monster monster = new Monster("Monstre " + i, 5, 3, playerBoard);
-            Card card = new Card("Carte " + i, 2, "Description de la carte " + i, monster, playerHero);
-            deck.add(card);
+    private List<Card> generateDeckPlayer() {
+        List<Card> deckPlayer = new ArrayList<>();
+        Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, playerBoard);
+        Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard);
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard);
+        Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, playerHero);
+        Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, playerHero);
+        Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, playerHero);
+        deckPlayer.add(card);
+        deckPlayer.add(card2);
+        deckPlayer.add(card3);
+        return deckPlayer;
+    }
+
+    private List<Card> generateDeckOpponent() {
+        List<Card> deckOpponent = new ArrayList<>();
+        Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard);
+        Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard);
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard);
+        Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte2, opponentHero);
+        Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron2, opponentHero);
+        Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, opponentHero);
+        deckOpponent.add(card);
+        deckOpponent.add(card2);
+        deckOpponent.add(card3);
+        return deckOpponent;
+    }
+
+    private void distributeCardsPlayer(List<Card> deck, PlayerHero Hero) {
+        // Logique pour distribuer des cartes au Player
+        for (int i = 0; i < 3; i++) {
+            Card card = deck.remove(0); // Retirez la première carte du deck
+            Hero.addCardToHand(card);
         }
-        return deck;
     }
-
-    private void distributeCards(List<Card> deck, Hero Hero) {
-        // Logique pour distribuer des cartes au Hero
-        for (int i = 0; i < 10; i++) {
+    private void distributeCardsOpponent(List<Card> deck, OpponentHero Hero) {
+        // Logique pour distribuer des cartes a l'adversaire
+        for (int i = 0; i < 3; i++) {
             Card card = deck.remove(0); // Retirez la première carte du deck
             Hero.addCardToHand(card);
         }
@@ -66,14 +89,21 @@ public class Game {
     private void playTurn(Hero currentHero, Hero opponentHero, Board currentBoard, Board opponentBoard) {
         opponentHero.setMana(opponentHero.getMana() + 1);
         currentHero.setMana(currentHero.getMana() + 1);
+        //Méthode pour afficher le board
+        currentBoard.displayBoard(currentHero, opponentHero);
         System.out.println("Tour de " + currentHero.getName());
+        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour");
 
-        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHp()+ "\n Points de mana: "+ currentHero.getMana()+"\n Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour");
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
         if (choix == 1) {
             System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
-            currentHero.useHeroPower(opponentHero);
+            System.out.println("Choisissez une cible: ");
+            int choixCible = sc.nextInt();
+            if (choixCible == 1) {
+                currentHero.useHeroPower(opponentHero);
+            } else if (choixCible == 2) {
+                currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(0));}
         } else if (choix == 2) {
             System.out.println("Vous avez choisi de jouer une carte");
             currentHero.viewHand();
@@ -84,12 +114,7 @@ public class Game {
         } else if (choix == 3) {
             System.out.println("Vous avez choisi de passer le tour");
         }
-        else if (choix == 4) {
-            //afficher le board
-            System.out.println("Vous avez choisi d'afficher le board");
-            currentBoard.displayBoard(currentHero, opponentHero);
 
-        }
         else {
             System.out.println("Choix invalide");
             System.exit(0);
@@ -128,7 +153,7 @@ public class Game {
             System.out.println("Choix invalide");
             System.exit(0);
         }
-        System.out.println("Vous avez choisi le " + name);
+
         System.out.println("Joueur 2: Choisissez votre hero: ");
         int choix2 = sc.nextInt();
         if (choix2 == 1) {
@@ -143,8 +168,9 @@ public class Game {
             System.exit(0);
         }
 
-        Hero playerHero = new PlayerHero(name, 20, new PlayerHeroPower(name), 2);
-        Hero opponentHero = new OpponentHero(name2, 20, new OpponentHeroPower(name), 2);
+        PlayerHero playerHero = new PlayerHero(name, 20, new PlayerHeroPower(name), 2);
+        OpponentHero opponentHero = new OpponentHero(name2, 20, new OpponentHeroPower(name), 2);
+
 
         Game game = new Game(playerHero, opponentHero);
         game.startGame();

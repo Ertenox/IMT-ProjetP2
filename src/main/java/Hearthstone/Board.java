@@ -10,8 +10,8 @@ public class Board {
     private List<Monster> opponentMonsters;
 
     public Board() {
-        playerMonsters = new ArrayList<>();
-        opponentMonsters = new ArrayList<>();
+        playerMonsters = new ArrayList<Monster>();
+        opponentMonsters = new ArrayList<Monster>();
     }
 
     // Méthode pour ajouter un monstre du joueur au plateau
@@ -62,47 +62,41 @@ public class Board {
         }
     }
 
-    public void displayBoard(Hero playerHero, Hero opponentHero){
-        System.out.println("Plateau du joueur:");
-        displayHero(playerHero, playerMonsters);
-
-        System.out.println("\nPlateau de l'adversaire:");
-        displayHero(opponentHero, opponentMonsters);
-    }
-
-    private void displayHero(Hero hero, List<Monster> monsters) {
-        if (hero == null) {
-            System.out.println("Héros non défini.");
-            return;
-        }
-
-        System.out.println("╔════════════╗");
-        System.out.println("║ " + centerString(hero.getName(), 14) + " ║");
-        System.out.println("║ HP: " + centerString(Integer.toString(hero.getHp()), 10) + " ║");
-        System.out.println("╠════════════╣");
-
-        if (monsters == null || monsters.isEmpty()) {
-            System.out.println("║ Aucun monstre  ║");
+    //supprimer le monstre du plateau si il est mort
+    public void removeMonster(Monster monster) {
+        if (monster.getBoard() == this) {
+            playerMonsters.remove(monster);
         } else {
-            for (int i = 0; i < monsters.size(); i++) {
-                Monster monster = monsters.get(i);
-                if (monster != null) {
-                    String monsterInfo = String.format("║ %d. %s (HP: %d, ATT: %d) ║", i + 1, monster.getName(), monster.getHP(), monster.getAttack());
-                    System.out.println(centerString(monsterInfo, 14));
-                }
-            }
+            opponentMonsters.remove(monster);
         }
-
-        System.out.println("╚════════════╝");
     }
 
-// Reste du code inchangé...
 
 
-    private String centerString(String str, int length) {
-        int pad = (length - str.length()) / 2;
-        return String.format("%" + (pad + str.length()) + "s", str);
+    public void displayBoard(Hero playerHero, Hero opponentHero){
+        System.out.println("Plateau de " + playerHero.getName() + ":");
+        System.out.println("Héros: " + playerHero.getName() + " (" + playerHero.getHP() + " hp)");
+        System.out.println("Monstres: ");
+        for (int i = 0; i < playerMonsters.size(); i++) {
+            Monster monster = playerMonsters.get(i);
+            if (monster.getHP() <= 0) {
+                playerMonsters.remove(monster);
+            }
+            System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
+
+        }
+        System.out.println("Plateau de " + opponentHero.getName() + ":");
+        System.out.println("Héros: " + opponentHero.getName() + " (" + opponentHero.getHP() + " hp)");
+        System.out.println("Monstres: ");
+        for (int i = 0; i < opponentMonsters.size(); i++) {
+            Monster monster = opponentMonsters.get(i);
+            if (monster.getHP() <= 0) {
+                playerMonsters.remove(monster);
+            }
+            System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
+        }
     }
+
 
 
 }
