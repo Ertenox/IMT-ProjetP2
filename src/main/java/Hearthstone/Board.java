@@ -90,9 +90,7 @@ public class Board {
         System.out.println("Monstres: ");
         for (int i = 0; i < opponentMonsters.size(); i++) {
             Monster monster = opponentMonsters.get(i);
-            if (monster.getHP() <= 0) {
-                playerMonsters.remove(monster);
-            }
+
             System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
         }
     }

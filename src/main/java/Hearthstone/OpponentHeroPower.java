@@ -17,6 +17,8 @@ public class OpponentHeroPower implements HeroPower {
                 target.takeDamage(1);
                 if (target.getHP() <= 0) {
                     System.out.println(target.getName() + " est mort.");
+                    ((Monster) target).getBoard().removeMonster((Monster) target);
+
                 }
             } else if (target instanceof PlayerHero) {
                 System.out.println("Le pouvoir du Mage inflige 1 point de dégât à l'adversaire.");
@@ -28,6 +30,8 @@ public class OpponentHeroPower implements HeroPower {
                 target.takeDamage(2);
                 if (target.getHP() <= 0) {
                     System.out.println(target.getName() + " est mort.");
+                    ((Monster) target).getBoard().removeMonster((Monster) target);
+
                 }
             } else if (target instanceof PlayerHero) {
                 System.out.println("Le pouvoir du Guerrier inflige 2 points de dégât à l'adversaire.");

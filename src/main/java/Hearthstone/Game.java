@@ -51,14 +51,14 @@ public class Game {
     }
 
     private void distributeCardsPlayer(List<Card> deck, PlayerHero Hero) {
-        // Logique pour distribuer des cartes au Player
+        // Logique pour distribuer des cartes au Joueur1
         for (int i = 0; i < 3; i++) {
             Card card = deck.remove(0); // Retirez la première carte du deck
             Hero.addCardToHand(card);
         }
     }
     private void distributeCardsOpponent(List<Card> deck, OpponentHero Hero) {
-        // Logique pour distribuer des cartes a l'adversaire
+        // Logique pour distribuer des cartes au joueur 2
         for (int i = 0; i < 3; i++) {
             Card card = deck.remove(0); // Retirez la première carte du deck
             Hero.addCardToHand(card);
@@ -98,12 +98,23 @@ public class Game {
         int choix = sc.nextInt();
         if (choix == 1) {
             System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
+            //afficher les cibles possibles sur le board
+
             System.out.println("Choisissez une cible: ");
+            System.out.println("1- Hero adverse");
+            for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
+                System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+            }
             int choixCible = sc.nextInt();
             if (choixCible == 1) {
                 currentHero.useHeroPower(opponentHero);
-            } else if (choixCible == 2) {
-                currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(0));}
+            } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+            } else {
+                System.out.println("Choix invalide");
+                System.exit(0);
+            }
+
         } else if (choix == 2) {
             System.out.println("Vous avez choisi de jouer une carte");
             currentHero.viewHand();
@@ -119,19 +130,17 @@ public class Game {
             System.out.println("Choix invalide");
             System.exit(0);
         }
-        // Poser une carte sur le plateau (simulé ici)
 
 
         // Vérifier si le Hero adverse est mis KO
         if (!opponentHero.isAlive()) {
             System.out.println("Le Hero " + opponentHero.getName() + " est mis KO. " + currentHero.getName() + " remporte la partie!");
-            // Vous pouvez ajouter d'autres logiques ici
         }
     }
 
     private void displayGameResult() {
         System.out.println("Fin du jeu.");
-        // Vous pouvez ajouter d'autres logiques ici pour afficher le résultat final
+
     }
 
     public static void main(String[] args) {
