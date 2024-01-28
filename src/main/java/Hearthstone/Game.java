@@ -72,12 +72,15 @@ public class Game {
         opponentHero.setMana(1);
         playerHero.setMana(1);
 
+        int manaMax = 1;
 
 
         // Commencer les tours de jeu
         while (playerHero.isAlive() && opponentHero.isAlive()) {
-            playTurn(playerHero, opponentHero, playerBoard, opponentBoard);
-            playTurn(opponentHero, playerHero, opponentBoard, playerBoard);
+            //compter le nombre de tours
+            manaMax++;
+            playTurn(playerHero, opponentHero, playerBoard, opponentBoard,manaMax);
+            playTurn(opponentHero, playerHero, opponentBoard, playerBoard,manaMax);
 
         }
 
@@ -86,13 +89,21 @@ public class Game {
     }
 
     // Méthode pour simuler un tour de jeu
-    private void playTurn(Hero currentHero, Hero opponentHero, Board currentBoard, Board opponentBoard) {
-        opponentHero.setMana(opponentHero.getMana() + 1);
-        currentHero.setMana(currentHero.getMana() + 1);
+    private void playTurn(Hero currentHero, Hero opponentHero, Board currentBoard, Board opponentBoard, int tour) {
+        if(tour > 9){
+            currentHero.setMana(9);
+        }
+        else {
+            currentHero.setMana(tour);
+        }
+
+
+
         //Méthode pour afficher le board
         currentBoard.displayBoard(currentHero, opponentHero);
+        opponentBoard.displayBoard(opponentHero, currentHero);
         System.out.println("Tour de " + currentHero.getName());
-        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour");
+        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour \n 4- Attaquer avec un monstre");
 
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
@@ -125,11 +136,71 @@ public class Game {
         } else if (choix == 3) {
             System.out.println("Vous avez choisi de passer le tour");
         }
+        else if (choix == 4){
+            System.out.print("Quel monstre va attaquer ? : ");
+            if (currentHero.getID() == 0){
+                currentBoard.displayPlayerMonsters();
+                Scanner sc2 = new Scanner(System.in);
+                int choixMonstre = sc2.nextInt();
+                if (choixMonstre > 0 && choixMonstre <= currentBoard.getPlayerMonsters().size()){
+                    System.out.println("Choisissez une cible: ");
+                    System.out.println("1- Hero adverse");
+                    for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
+                        System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                    }
+                    int choixCible = sc.nextInt();
+                    if (choixCible == 1) {
+                        currentBoard.getPlayerMonsters().get(choixMonstre-1).attack(opponentHero);
+                    } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                        currentBoard.getPlayerMonsters().get(choixMonstre-1).attack(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                    } else {
+                        System.out.println("Choix invalide");
+                        System.exit(0);
+                    }
+                }
+                else {
+                    System.out.println("Choix invalide");
+                    System.exit(0);
+                }
+                    currentBoard.getPlayerMonsters().get(choixMonstre-1).attack(opponentHero);
+                }
+                else {
+                    System.out.println("Choix invalide");
+                    System.exit(0);
+                }
+            }
+            else if (currentHero.getID() == 1){
+                currentBoard.displayOpponentMonsters();
+                Scanner sc2 = new Scanner(System.in);
+                int choixMonstre = sc2.nextInt();
+                if (choixMonstre > 0 && choixMonstre <= currentBoard.getOpponentMonsters().size()){
+                    System.out.println("Choisissez une cible: ");
+                    System.out.println("1- Hero adverse");
+                    for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
+                        System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                    }
+                    int choixCible = sc.nextInt();
+                    if (choixCible == 1) {
+                        currentBoard.getOpponentMonsters().get(choixMonstre-1).attack(opponentHero);
+                    } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                        currentBoard.getOpponentMonsters().get(choixMonstre-1).attack(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                    } else {
+                        System.out.println("Choix invalide");
+                        System.exit(0);
+                    }
+                }
+                else {
+                    System.out.println("Choix invalide");
+                    System.exit(0);
+                }
+                }
+                else {
+                    System.out.println("Choix invalide");
+                    System.exit(0);
+            }
 
-        else {
-            System.out.println("Choix invalide");
-            System.exit(0);
-        }
+
+
 
 
         // Vérifier si le Hero adverse est mis KO

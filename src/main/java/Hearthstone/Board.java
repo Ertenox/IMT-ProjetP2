@@ -73,28 +73,29 @@ public class Board {
 
 
 
-    public void displayBoard(Hero playerHero, Hero opponentHero){
+    public void displayBoard(Hero playerHero, Hero opponentHero) {
         System.out.println("Plateau de " + playerHero.getName() + ":");
         System.out.println("Héros: " + playerHero.getName() + " (" + playerHero.getHP() + " hp)");
         System.out.println("Monstres: ");
+        if (playerHero.getID() == 0) {
+            displayPlayerMonsters();
+        } else {
+            displayOpponentMonsters();
+        }
+    }
+
+    public void displayPlayerMonsters() {
         for (int i = 0; i < playerMonsters.size(); i++) {
             Monster monster = playerMonsters.get(i);
-            if (monster.getHP() <= 0) {
-                playerMonsters.remove(monster);
-            }
-            System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
-
-        }
-        System.out.println("Plateau de " + opponentHero.getName() + ":");
-        System.out.println("Héros: " + opponentHero.getName() + " (" + opponentHero.getHP() + " hp)");
-        System.out.println("Monstres: ");
-        for (int i = 0; i < opponentMonsters.size(); i++) {
-            Monster monster = opponentMonsters.get(i);
-
             System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
         }
     }
 
+    public void displayOpponentMonsters() {
 
-
+        for (int i = 0; i < opponentMonsters.size(); i++) {
+            Monster monster = opponentMonsters.get(i);
+            System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
+        }
+    }
 }
