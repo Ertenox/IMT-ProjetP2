@@ -25,10 +25,10 @@ public class Game {
 
     private List<Card> generateDeckPlayer() {
         List<Card> deckPlayer = new ArrayList<>();
-        Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, playerBoard);
-        Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard);
-        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard);
-        Monster MagmaDog = new Monster("Chien de magma ", 5, 9, playerBoard);
+        Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, playerBoard,false);
+        Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard,false);
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard,false);
+        Monster MagmaDog = new Monster("Chien de magma ", 5, 9, playerBoard,false);
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, playerHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, playerHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, playerHero);
@@ -42,10 +42,10 @@ public class Game {
 
     private List<Card> generateDeckOpponent() {
         List<Card> deckOpponent = new ArrayList<>();
-        Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard);
-        Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard);
-        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard);
-        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard);
+        Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard,false);
+        Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard,false);
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard,false);
+        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard,false);
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte2, opponentHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron2, opponentHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, opponentHero);
@@ -172,51 +172,63 @@ public class Game {
                     currentBoard.displayPlayerMonsters();
                     Scanner sc2 = new Scanner(System.in);
                     int choixMonstre = sc2.nextInt();
-                    if (choixMonstre > 0 && choixMonstre <= currentBoard.getPlayerMonsters().size()) {
-                        System.out.println("Choisissez une cible: ");
-                        System.out.println("1- Hero adverse");
-                        for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
-                            System.out.println(i + 2 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
-                        }
-                        int choixCible = sc.nextInt();
-                        if (choixCible == 1) {
-                            currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(opponentHero);
-                        } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
-                            Monster target = opponentBoard.getOpponentMonsters().get(choixCible - 2);
-                            currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(target);
+                    if (!currentBoard.getPlayerMonsters().get(choixMonstre - 1).gethasAttacked()) {
+                        if (choixMonstre > 0 && choixMonstre <= currentBoard.getPlayerMonsters().size()) {
+                            System.out.println("Choisissez une cible: ");
+                            System.out.println("1- Hero adverse");
+                            for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
+                                System.out.println(i + 2 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
+                            }
+                            int choixCible = sc.nextInt();
+                            if (choixCible == 1) {
+                                currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(opponentHero);
+                            } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
+                                Monster target = opponentBoard.getOpponentMonsters().get(choixCible - 2);
+                                currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(target);
+                            } else {
+                                System.out.println("Choix invalide");
+                                System.exit(0);
+                            }
                         } else {
                             System.out.println("Choix invalide");
                             System.exit(0);
                         }
-                    } else {
-                        System.out.println("Choix invalide");
-                        System.exit(0);
+                        currentBoard.getPlayerMonsters().get(choixMonstre -1).setHasAttacked(true);
+
+                    }
+                    else{
+                        System.out.println("Ce monstre a déjà attaqué");
                     }
                 } else if (currentHero.getID() == 1) {
                     currentBoard.displayOpponentMonsters();
                     Scanner sc2 = new Scanner(System.in);
                     int choixMonstre = sc2.nextInt();
-                    if (choixMonstre > 0 && choixMonstre <= currentBoard.getOpponentMonsters().size()) {
-                        System.out.println("Choisissez une cible: ");
-                        System.out.println("1- Hero adverse");
-                        for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
-                            System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
-                        }
-                        int choixCible = sc.nextInt();
-                        if (choixCible == 1) {
-                            currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(opponentHero);
-                        }
-                        else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
-                            Monster target = opponentBoard.getPlayerMonsters().get(choixCible - 2);
-                            currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
+                    if (!currentBoard.getOpponentMonsters().get(choixMonstre - 1).gethasAttacked()) {
+                        if (choixMonstre > 0 && choixMonstre <= currentBoard.getOpponentMonsters().size()) {
+                            System.out.println("Choisissez une cible: ");
+                            System.out.println("1- Hero adverse");
+                            for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
+                                System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                            }
+                            int choixCible = sc.nextInt();
+                            if (choixCible == 1) {
+                                currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(opponentHero);
+                            } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                                Monster target = opponentBoard.getPlayerMonsters().get(choixCible - 2);
+                                currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
 
+                            } else {
+                                System.out.println("Choix invalide");
+                                System.exit(0);
+                            }
                         } else {
                             System.out.println("Choix invalide");
                             System.exit(0);
                         }
-                    } else {
-                        System.out.println("Choix invalide");
-                        System.exit(0);
+                        currentBoard.getOpponentMonsters().get(choixMonstre -1).setHasAttacked(true);
+                    }
+                    else{
+                        System.out.println("Ce monstre a déjà attaqué");
                     }
                 }
             }

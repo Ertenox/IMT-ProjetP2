@@ -7,16 +7,19 @@ public class Monster implements Entity, Attacker{
     private int hp;
     private int attack;
     private Board board;
+    private boolean hasAttacked;
 
 
 
 
-    public Monster(String name, int hp, int attack, Board board) {
+
+    public Monster(String name, int hp, int attack, Board board, boolean hasAttacked) {
         this.id = idCounter++;
         this.name = name;
         this.hp = hp;
         this.attack = attack;
         this.board = board;
+        this.hasAttacked = hasAttacked;
     }
 
     public void playTurn() {
@@ -56,6 +59,13 @@ public class Monster implements Entity, Attacker{
     @Override
     public boolean isAlive() {
         return this.hp > 0;
+    }
+
+    public boolean gethasAttacked() {
+        return hasAttacked;
+    }
+    public void setHasAttacked(boolean hasAttacked) {
+        this.hasAttacked = hasAttacked;
     }
 
 
