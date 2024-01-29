@@ -108,6 +108,7 @@ public class Game {
 
         while (currentHero.getMana() > 0) {
             //Méthode pour afficher le board
+            opponentBoard.displayOpponentMonsters();
             currentBoard.displayBoard(currentHero, opponentHero);
             opponentBoard.displayBoard(opponentHero, currentHero);
             System.out.println("Tour de " + currentHero.getName());
@@ -180,8 +181,9 @@ public class Game {
                         int choixCible = sc.nextInt();
                         if (choixCible == 1) {
                             currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(opponentHero);
-                        } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
-                            currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                        } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
+                            Monster target = opponentBoard.getOpponentMonsters().get(choixCible - 2);
+                            currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(target);
                         } else {
                             System.out.println("Choix invalide");
                             System.exit(0);
@@ -190,7 +192,6 @@ public class Game {
                         System.out.println("Choix invalide");
                         System.exit(0);
                     }
-                    currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(opponentHero);
                 } else if (currentHero.getID() == 1) {
                     currentBoard.displayOpponentMonsters();
                     Scanner sc2 = new Scanner(System.in);
@@ -204,8 +205,11 @@ public class Game {
                         int choixCible = sc.nextInt();
                         if (choixCible == 1) {
                             currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(opponentHero);
-                        } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
-                            currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                        }
+                        else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                            Monster target = opponentBoard.getPlayerMonsters().get(choixCible - 2);
+                            currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
+
                         } else {
                             System.out.println("Choix invalide");
                             System.exit(0);

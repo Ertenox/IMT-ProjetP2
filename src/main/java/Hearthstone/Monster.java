@@ -65,6 +65,20 @@ public class Monster implements Entity, Attacker{
         if (target != null) {
             // Infliger des dégâts à la cible
             target.takeDamage(this.attack);
+            if (target instanceof Monster) {
+                System.out.println(this.getName() + " attaque " + target.getName() + " et lui inflige " + this.getAttack() + " points de dégâts.");
+                if(target.getHP() <= 0){
+                    if (((Monster) target).getBoard() == this.getBoard()) {
+                        System.out.println(target.getName() + " est mort.");
+                        ((Monster) target).getBoard().removePlayerMonster((Monster) target);
+                    } else {
+                        System.out.println(target.getName() + " est mort.");
+                        ((Monster) target).getBoard().removeOpponentMonster((Monster) target);
+                    }
+                }
+            } else if (target instanceof Hero) {
+                System.out.println(this.getName() + " attaque " + target.getName() + " et lui inflige " + this.getAttack() + " points de dégâts.");
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ public class Main {
         }
 
         PlayerHero playerHero = new PlayerHero(name, 20, new PlayerHeroPower(name), 2);
-        OpponentHero opponentHero = new OpponentHero(name2, 20, new OpponentHeroPower(name), 2);
+        OpponentHero opponentHero = new OpponentHero(name2, 20, new OpponentHeroPower(name2), 2);
 
 
         Game game = new Game(playerHero, opponentHero);

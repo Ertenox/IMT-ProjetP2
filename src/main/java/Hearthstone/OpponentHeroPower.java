@@ -17,7 +17,7 @@ public class OpponentHeroPower implements HeroPower {
                 target.takeDamage(1);
                 if (target.getHP() <= 0) {
                     System.out.println(target.getName() + " est mort.");
-                    ((Monster) target).getBoard().removeMonster((Monster) target);
+                    ((Monster) target).getBoard().removePlayerMonster((Monster) target);
 
                 }
             } else if (target instanceof PlayerHero) {
@@ -30,7 +30,7 @@ public class OpponentHeroPower implements HeroPower {
                 target.takeDamage(1);
                 if (target.getHP() <= 0) {
                     System.out.println(target.getName() + " est mort.");
-                    ((Monster) target).getBoard().removeMonster((Monster) target);
+                    ((Monster) target).getBoard().removePlayerMonster((Monster) target);
 
                 }
             } else if (target instanceof PlayerHero) {

@@ -63,12 +63,12 @@ public class Board {
     }
 
     //supprimer le monstre du plateau si il est mort
-    public void removeMonster(Monster monster) {
-        if (monster.getBoard() == this) {
-            playerMonsters.remove(monster);
-        } else {
-            opponentMonsters.remove(monster);
-        }
+    public void removeOpponentMonster(Monster monster) {
+        opponentMonsters.remove(monster);
+    }
+
+    public void removePlayerMonster(Monster monster) {
+        playerMonsters.remove(monster);
     }
 
 
