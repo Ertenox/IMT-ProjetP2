@@ -71,6 +71,13 @@ public class Board {
         playerMonsters.remove(monster);
     }
 
+    public void setPlayerHero(Hero playerHero) {
+        this.playerHero = playerHero;
+    }
+    public void setOpponentHero(Hero opponentHero) {
+        this.opponentHero = opponentHero;
+    }
+
 
 
     public void displayBoard(Hero playerHero, Hero opponentHero) {

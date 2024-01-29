@@ -49,6 +49,10 @@ public class Monster implements Entity, Attacker{
         return board;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
 
 
     @Override
