@@ -86,6 +86,10 @@ public abstract class Hero implements Entity{
         return this.hp > 0;
     }
 
+    public boolean isDead() {
+        return this.hp <= 0;
+    }
+
     public int getMana() {
         return mana;
     }
