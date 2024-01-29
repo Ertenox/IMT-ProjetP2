@@ -83,18 +83,34 @@ public class Board {
     public void displayBoard(Hero playerHero, Hero opponentHero) {
         System.out.println("Plateau de " + playerHero.getName() + ":");
         System.out.println("Héros: " + playerHero.getName() + " (" + playerHero.getHP() + " hp)");
-        System.out.println("Monstres: ");
+
         if (playerHero.getID() == 0) {
-            displayPlayerMonsters();
+            if (playerMonsters.size() == 0) {
+                System.out.println("Aucun monstre sur le plateau.");
+            }
+            else {
+                System.out.println("Monstres: ");
+                displayPlayerMonsters();
+            }
         } else {
-            displayOpponentMonsters();
+            if (opponentMonsters.size() == 0) {
+                System.out.println("Aucun monstre sur le plateau.");
+            }
+            else {
+                System.out.println("Monstres: ");
+                displayOpponentMonsters();
+            }
         }
     }
 
     public boolean displayPlayerMonsters() {
+        if (playerMonsters.size() == 0) {
+            return false;
+        }
+
         for (int i = 0; i < playerMonsters.size(); i++) {
             Monster monster = playerMonsters.get(i);
-            System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
+            System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp,)"+monster.getType());
         }
         if (playerMonsters.size() == 0) {
             return false;
@@ -103,9 +119,12 @@ public class Board {
     }
 
     public boolean displayOpponentMonsters() {
+        if (opponentMonsters.size() == 0) {
+            return false;
+        }
         for (int i = 0; i < opponentMonsters.size(); i++) {
             Monster monster = opponentMonsters.get(i);
-            System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
+            System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)"+monster.getType());
         }
         if (opponentMonsters.size() == 0) {
             return false;
