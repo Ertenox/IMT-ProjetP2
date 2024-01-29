@@ -9,17 +9,20 @@ public class Monster implements Entity, Attacker{
     private Board board;
     private boolean hasAttacked;
 
+    private String type;
 
 
 
 
-    public Monster(String name, int hp, int attack, Board board, boolean hasAttacked) {
+
+    public Monster(String name, int hp, int attack, Board board, boolean hasAttacked, String type) {
         this.id = idCounter++;
         this.name = name;
         this.hp = hp;
         this.attack = attack;
         this.board = board;
         this.hasAttacked = hasAttacked;
+        this.type = type;
     }
 
     public void playTurn() {
@@ -51,6 +54,10 @@ public class Monster implements Entity, Attacker{
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public String getType() {
+        return type;
     }
 
 

@@ -25,10 +25,10 @@ public class Game {
 
     private List<Card> generateDeckPlayer() {
         List<Card> deckPlayer = new ArrayList<>();
-        Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, playerBoard,false);
-        Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard,false);
-        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard,false);
-        Monster MagmaDog = new Monster("Chien de magma ", 5, 9, playerBoard,false);
+        Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, playerBoard,false, "normal");
+        Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard,false, "provoke");
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard,false, "normal");
+        Monster MagmaDog = new Monster("Chien de magma ", 5, 9, playerBoard,false, "normal");
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, playerHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, playerHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, playerHero);
@@ -42,10 +42,10 @@ public class Game {
 
     private List<Card> generateDeckOpponent() {
         List<Card> deckOpponent = new ArrayList<>();
-        Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard,false);
-        Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard,false);
-        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard,false);
-        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard,false);
+        Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard,false, "normal");
+        Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard,false, "provoke");
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard,false,"normal");
+        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard,false, "normal");
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte2, opponentHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron2, opponentHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, opponentHero);
@@ -120,39 +120,76 @@ public class Game {
                 if(currentHero.getID()==1){
                     System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
                     //afficher les cibles possibles sur le board
-
-                    System.out.println("Choisissez une cible: ");
-                    System.out.println("1- Hero adverse");
+                    List<Monster> provokers = new ArrayList<Monster>();
                     for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
-                        System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                        if (opponentBoard.getPlayerMonsters().get(i).getType() == "provoke") {
+                            System.out.println(i + 1 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                            provokers.add(opponentBoard.getPlayerMonsters().get(i));
+                        }
                     }
-                    int choixCible = sc.nextInt();
-                    if (choixCible == 1) {
-                        currentHero.useHeroPower(opponentHero);
-                    } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
-                        currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                    if (provokers.size() > 0) {
+                        System.out.println("Des provocateurs sont sur le terrain, Choisissez une cible: ");
+                        int choixCible = sc.nextInt();
+                        if (choixCible > 0 && choixCible <= provokers.size()) {
+                            currentHero.useHeroPower(provokers.get(choixCible - 1));
+                        } else {
+                            System.out.println("Choix invalide");
+                            continue;
+                        }
                     } else {
-                        System.out.println("Choix invalide");
-                        System.exit(0);
-                    }
-                }
-                else if (currentHero.getID()==0){
-                    System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
-                    //afficher les cibles possibles sur le board
+                        System.out.println("Choisissez une cible: ");
+                        System.out.println("1- Hero adverse");
+                        for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
+                            System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                        }
+                        int choixCible = sc.nextInt();
+                        if (choixCible == 1) {
+                            currentHero.useHeroPower(opponentHero);
+                        } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                            currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                        } else {
+                            System.out.println("Choix invalide");
+                            continue;
+                        }
 
-                    System.out.println("Choisissez une cible: ");
-                    System.out.println("1- Hero adverse");
-                    for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
-                        System.out.println(i + 2 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
                     }
-                    int choixCible = sc.nextInt();
-                    if (choixCible == 1) {
-                        currentHero.useHeroPower(opponentHero);
-                    } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
-                        currentHero.useHeroPower(opponentBoard.getOpponentMonsters().get(choixCible - 2));
+
+                }
+                else if (currentHero.getID()==0) {
+                    System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
+
+                    List<Monster> provokers = new ArrayList<Monster>();
+                    for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
+                        if (opponentBoard.getOpponentMonsters().get(i).getType() == "provoke") {
+                            System.out.println(i + 1 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
+                            provokers.add(opponentBoard.getOpponentMonsters().get(i));
+                        }
+                    }
+                    if (provokers.size() > 0) {
+                        System.out.println("Des provocateurs sont sur le terrain, Choisissez une cible: ");
+                        int choixCible = sc.nextInt();
+                        if (choixCible > 0 && choixCible <= provokers.size()) {
+                            currentHero.useHeroPower(provokers.get(choixCible - 1));
+                        } else {
+                            System.out.println("Choix invalide");
+                            continue;
+                        }
                     } else {
-                        System.out.println("Choix invalide");
-                        System.exit(0);
+
+                        System.out.println("Choisissez une cible: ");
+                        System.out.println("1- Hero adverse");
+                        for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
+                            System.out.println(i + 2 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
+                        }
+                        int choixCible = sc.nextInt();
+                        if (choixCible == 1) {
+                            currentHero.useHeroPower(opponentHero);
+                        } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
+                            currentHero.useHeroPower(opponentBoard.getOpponentMonsters().get(choixCible - 2));
+                        } else {
+                            System.out.println("Choix invalide");
+                            System.exit(0);
+                        }
                     }
                 }
 
