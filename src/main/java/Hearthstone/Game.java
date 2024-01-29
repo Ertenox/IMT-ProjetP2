@@ -52,14 +52,14 @@ public class Game {
 
     private void distributeCardsPlayer(List<Card> deck, PlayerHero Hero) {
         // Logique pour distribuer des cartes au Joueur1
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < deck.size(); i++) {
             Card card = deck.remove(0); // Retirez la première carte du deck
             Hero.addCardToHand(card);
         }
     }
     private void distributeCardsOpponent(List<Card> deck, OpponentHero Hero) {
         // Logique pour distribuer des cartes au joueur 2
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < deck.size(); i++) {
             Card card = deck.remove(0); // Retirez la première carte du deck
             Hero.addCardToHand(card);
         }
