@@ -92,7 +92,6 @@ public class Board {
     }
 
     public void displayOpponentMonsters() {
-
         for (int i = 0; i < opponentMonsters.size(); i++) {
             Monster monster = opponentMonsters.get(i);
             System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
