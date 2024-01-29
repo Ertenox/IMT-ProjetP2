@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
+        System.out.println("Antoine BERTIN | Noa PAILLETTE | FISA TI 2026 IMT Nord Europe");
         // Créer les Heros
         String name = "";
         String name2 = "";
