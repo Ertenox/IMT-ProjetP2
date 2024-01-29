@@ -13,14 +13,14 @@ public class PlayerHeroPower implements HeroPower {
         if (type.equals("Mage")) {
             if (target instanceof Monster) {
                 System.out.println("Le pouvoir du Mage inflige 1 point de dégât à "+ target.getName() +".");
-                target.takeDamage(1);
+                target.takeDamage(2);
                 if (target.getHP() <= 0) {
                     System.out.println(target.getName() + " est mort.");
                     ((Monster) target).getBoard().removeMonster((Monster) target);
                 }
             } else if (target instanceof OpponentHero) {
                 System.out.println("Le pouvoir du Mage inflige 1 point de dégât à l'adversaire.");
-                target.takeDamage(20);
+                target.takeDamage(2);
             }
 
 

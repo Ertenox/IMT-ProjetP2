@@ -33,9 +33,11 @@ public class Card {
         Board currentBoard = monster.getBoard();
         if (currentHero.getID() == 0){
             currentBoard.addPlayerMonster(monster);
+            currentHero.setMana(currentHero.getMana() - manaCost);
         }
         else if (currentHero.getID() == 1){
             currentBoard.addOpponentMonster(monster);
+            currentHero.setMana(currentHero.getMana() - manaCost);
         }
         System.out.println("Le monstre " + monster.getName() + " est invoqué sur le plateau.");
     }

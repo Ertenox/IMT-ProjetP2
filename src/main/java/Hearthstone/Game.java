@@ -27,12 +27,15 @@ public class Game {
         Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, playerBoard);
         Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard);
         Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard);
+        Monster MagmaDog = new Monster("Chien de magma ", 5, 9, playerBoard);
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, playerHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, playerHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, playerHero);
+        Card card4 = new Card("Chien de magma ", 7, "Bête", MagmaDog, playerHero);
         deckPlayer.add(card);
         deckPlayer.add(card2);
         deckPlayer.add(card3);
+        deckPlayer.add(card4);
         return deckPlayer;
     }
 
@@ -41,26 +44,31 @@ public class Game {
         Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard);
         Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard);
         Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard);
+        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard);
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte2, opponentHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron2, opponentHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, opponentHero);
+        Card card4 = new Card("Murloc ", 1, "Murloc", Murloc, opponentHero);
+
         deckOpponent.add(card);
         deckOpponent.add(card2);
         deckOpponent.add(card3);
+        deckOpponent.add(card4);
         return deckOpponent;
     }
 
     private void distributeCardsPlayer(List<Card> deck, PlayerHero Hero) {
-        // Logique pour distribuer des cartes au Joueur1
+        // Logique pour distribuer des cartes au Joueur1`
         for (int i = 0; i < deck.size(); i++) {
-            Card card = deck.remove(0); // Retirez la première carte du deck
+            Card card = deck.get(i);
+            //ajouter une carte à la main du joueur
             Hero.addCardToHand(card);
         }
     }
     private void distributeCardsOpponent(List<Card> deck, OpponentHero Hero) {
         // Logique pour distribuer des cartes au joueur 2
         for (int i = 0; i < deck.size(); i++) {
-            Card card = deck.remove(0); // Retirez la première carte du deck
+            Card card = deck.get(i); // Retirez la première carte du deck
             Hero.addCardToHand(card);
         }
     }
@@ -97,73 +105,20 @@ public class Game {
             currentHero.setMana(tour);
         }
 
+        while (currentHero.getMana() > 0) {
+            //Méthode pour afficher le board
+            currentBoard.displayBoard(currentHero, opponentHero);
+            opponentBoard.displayBoard(opponentHero, currentHero);
+            System.out.println("Tour de " + currentHero.getName());
+            System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour \n 4- Attaquer avec un monstre");
 
+            Scanner sc = new Scanner(System.in);
+            int choix = sc.nextInt();
+            if (choix == 1) {
+                if(currentHero.getID()==1){
+                    System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
+                    //afficher les cibles possibles sur le board
 
-        //Méthode pour afficher le board
-        currentBoard.displayBoard(currentHero, opponentHero);
-        opponentBoard.displayBoard(opponentHero, currentHero);
-        System.out.println("Tour de " + currentHero.getName());
-        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour \n 4- Attaquer avec un monstre");
-
-        Scanner sc = new Scanner(System.in);
-        int choix = sc.nextInt();
-        if (choix == 1) {
-            if(currentHero.getID()==1){
-                System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
-                //afficher les cibles possibles sur le board
-
-                System.out.println("Choisissez une cible: ");
-                System.out.println("1- Hero adverse");
-                for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
-                    System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
-                }
-                int choixCible = sc.nextInt();
-                if (choixCible == 1) {
-                    currentHero.useHeroPower(opponentHero);
-                } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
-                    currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(choixCible - 2));
-                } else {
-                    System.out.println("Choix invalide");
-                    System.exit(0);
-                }
-            }
-            else if (currentHero.getID()==0){
-                System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
-                //afficher les cibles possibles sur le board
-
-                System.out.println("Choisissez une cible: ");
-                System.out.println("1- Hero adverse");
-                for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
-                    System.out.println(i + 2 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
-                }
-                int choixCible = sc.nextInt();
-                if (choixCible == 1) {
-                    currentHero.useHeroPower(opponentHero);
-                } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
-                    currentHero.useHeroPower(opponentBoard.getOpponentMonsters().get(choixCible - 2));
-                } else {
-                    System.out.println("Choix invalide");
-                    System.exit(0);
-                }
-            }
-
-        } else if (choix == 2) {
-            System.out.println("Vous avez choisi de jouer une carte");
-            currentHero.viewHand();
-            System.out.println("Choisissez une carte à jouer: ");
-            int choixCarte = sc.nextInt();
-            currentHero.playCard(choixCarte - 1, currentBoard, currentHero);
-
-        } else if (choix == 3) {
-            System.out.println("Vous avez choisi de passer le tour");
-        }
-        else if (choix == 4){
-            System.out.print("Quel monstre va attaquer ? : ");
-            if (currentHero.getID() == 0){
-                currentBoard.displayPlayerMonsters();
-                Scanner sc2 = new Scanner(System.in);
-                int choixMonstre = sc2.nextInt();
-                if (choixMonstre > 0 && choixMonstre <= currentBoard.getPlayerMonsters().size()){
                     System.out.println("Choisissez une cible: ");
                     System.out.println("1- Hero adverse");
                     for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
@@ -171,18 +126,70 @@ public class Game {
                     }
                     int choixCible = sc.nextInt();
                     if (choixCible == 1) {
-                        currentBoard.getPlayerMonsters().get(choixMonstre-1).attack(opponentHero);
+                        currentHero.useHeroPower(opponentHero);
                     } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
-                        currentBoard.getPlayerMonsters().get(choixMonstre-1).attack(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                        currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(choixCible - 2));
                     } else {
                         System.out.println("Choix invalide");
                         System.exit(0);
                     }
                 }
-                else {
-                    System.out.println("Choix invalide");
-                    System.exit(0);
+                else if (currentHero.getID()==0){
+                    System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
+                    //afficher les cibles possibles sur le board
+
+                    System.out.println("Choisissez une cible: ");
+                    System.out.println("1- Hero adverse");
+                    for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
+                        System.out.println(i + 2 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
+                    }
+                    int choixCible = sc.nextInt();
+                    if (choixCible == 1) {
+                        currentHero.useHeroPower(opponentHero);
+                    } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
+                        currentHero.useHeroPower(opponentBoard.getOpponentMonsters().get(choixCible - 2));
+                    } else {
+                        System.out.println("Choix invalide");
+                        System.exit(0);
+                    }
                 }
+
+            } else if (choix == 2) {
+                System.out.println("Vous avez choisi de jouer une carte");
+                currentHero.viewHand();
+                System.out.println("Choisissez une carte à jouer: ");
+                int choixCarte = sc.nextInt();
+                currentHero.playCard(choixCarte - 1, currentBoard, currentHero);
+            } else if (choix == 3) {
+                System.out.println("Vous avez choisi de passer le tour");
+                currentHero.setMana(0);
+            }
+            else if (choix == 4){
+                System.out.print("Quel monstre va attaquer ? : ");
+                if (currentHero.getID() == 0){
+                    currentBoard.displayPlayerMonsters();
+                    Scanner sc2 = new Scanner(System.in);
+                    int choixMonstre = sc2.nextInt();
+                    if (choixMonstre > 0 && choixMonstre <= currentBoard.getPlayerMonsters().size()){
+                        System.out.println("Choisissez une cible: ");
+                        System.out.println("1- Hero adverse");
+                        for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
+                            System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                        }
+                        int choixCible = sc.nextInt();
+                        if (choixCible == 1) {
+                            currentBoard.getPlayerMonsters().get(choixMonstre-1).attack(opponentHero);
+                        } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                            currentBoard.getPlayerMonsters().get(choixMonstre-1).attack(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                        } else {
+                            System.out.println("Choix invalide");
+                            System.exit(0);
+                        }
+                    }
+                    else {
+                        System.out.println("Choix invalide");
+                        System.exit(0);
+                    }
                     currentBoard.getPlayerMonsters().get(choixMonstre-1).attack(opponentHero);
                 }
                 else {
@@ -214,21 +221,26 @@ public class Game {
                     System.out.println("Choix invalide");
                     System.exit(0);
                 }
-                }
-                else {
-                    System.out.println("Choix invalide");
-                    System.exit(0);
+            }
+            else {
+                System.out.println("Choix invalide");
+                System.exit(0);
             }
 
 
 
 
 
-        // Vérifier si le Hero adverse est mis KO
-        if (!opponentHero.isAlive()) {
-            System.out.println("Le Hero " + opponentHero.getName() + " est mis KO. " + currentHero.getName() + " remporte la partie!");
+            // Vérifier si le Hero adverse est mis KO
+            if (!opponentHero.isAlive()) {
+                System.out.println("Le Hero " + opponentHero.getName() + " est mis KO. " + currentHero.getName() + " remporte la partie!");
+            }
         }
     }
+
+
+
+
 
     private void displayGameResult() {
         System.out.println("Fin du jeu.");

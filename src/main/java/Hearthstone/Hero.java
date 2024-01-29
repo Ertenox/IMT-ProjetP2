@@ -95,4 +95,8 @@ public abstract class Hero implements Entity{
     public Hero getHero() {
         return this;
     }
+
+    public List<Card> getHand() {
+        return hand;
+    }
 }
