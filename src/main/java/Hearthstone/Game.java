@@ -108,22 +108,43 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
         if (choix == 1) {
-            System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
-            //afficher les cibles possibles sur le board
+            if(currentHero.getID()==1){
+                System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
+                //afficher les cibles possibles sur le board
 
-            System.out.println("Choisissez une cible: ");
-            System.out.println("1- Hero adverse");
-            for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
-                System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                System.out.println("Choisissez une cible: ");
+                System.out.println("1- Hero adverse");
+                for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
+                    System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                }
+                int choixCible = sc.nextInt();
+                if (choixCible == 1) {
+                    currentHero.useHeroPower(opponentHero);
+                } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                    currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                } else {
+                    System.out.println("Choix invalide");
+                    System.exit(0);
+                }
             }
-            int choixCible = sc.nextInt();
-            if (choixCible == 1) {
-                currentHero.useHeroPower(opponentHero);
-            } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
-                currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(choixCible - 2));
-            } else {
-                System.out.println("Choix invalide");
-                System.exit(0);
+            else if (currentHero.getID()==0){
+                System.out.println("Vous avez choisi d'utiliser le pouvoir du joueur");
+                //afficher les cibles possibles sur le board
+
+                System.out.println("Choisissez une cible: ");
+                System.out.println("1- Hero adverse");
+                for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
+                    System.out.println(i + 2 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
+                }
+                int choixCible = sc.nextInt();
+                if (choixCible == 1) {
+                    currentHero.useHeroPower(opponentHero);
+                } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
+                    currentHero.useHeroPower(opponentBoard.getOpponentMonsters().get(choixCible - 2));
+                } else {
+                    System.out.println("Choix invalide");
+                    System.exit(0);
+                }
             }
 
         } else if (choix == 2) {

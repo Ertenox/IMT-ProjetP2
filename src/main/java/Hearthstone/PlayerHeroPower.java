@@ -20,7 +20,7 @@ public class PlayerHeroPower implements HeroPower {
                 }
             } else if (target instanceof OpponentHero) {
                 System.out.println("Le pouvoir du Mage inflige 1 point de dégât à l'adversaire.");
-                target.takeDamage(1);
+                target.takeDamage(20);
             }
 
 
