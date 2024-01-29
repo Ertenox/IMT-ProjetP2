@@ -19,8 +19,8 @@ public class Main {
             name = "Guerrier";
 
         } else {
-            System.out.println("Choix invalide");
-            System.exit(0);
+            System.out.println("Choix invalide \n Merci de choisir entre 1 et 2");
+            main(args);
         }
 
         System.out.println("Joueur 2: Choisissez votre hero: ");
@@ -33,8 +33,8 @@ public class Main {
             name2 = "Guerrier";
 
         } else {
-            System.out.println("Choix invalide");
-            System.exit(0);
+            System.out.println("Choix invalide \n Merci de choisir entre 1 et 2");
+            main(args);
         }
 
         PlayerHero playerHero = new PlayerHero(name, 20, new PlayerHeroPower(name), 2);
