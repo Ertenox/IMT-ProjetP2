@@ -84,17 +84,25 @@ public class Board {
         }
     }
 
-    public void displayPlayerMonsters() {
+    public boolean displayPlayerMonsters() {
         for (int i = 0; i < playerMonsters.size(); i++) {
             Monster monster = playerMonsters.get(i);
             System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
         }
+        if (playerMonsters.size() == 0) {
+            return false;
+        }
+        return true;
     }
 
-    public void displayOpponentMonsters() {
+    public boolean displayOpponentMonsters() {
         for (int i = 0; i < opponentMonsters.size(); i++) {
             Monster monster = opponentMonsters.get(i);
             System.out.println((i + 1) + ". " + monster.getName() + " (" + monster.getAttack() + " attaque, " + monster.getHP() + " hp)");
         }
+        if (opponentMonsters.size() == 0) {
+            return false;
+        }
+        return true;
     }
 }
