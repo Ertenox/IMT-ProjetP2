@@ -127,7 +127,7 @@ public class Game {
 
         int manaMax = 1;
         //distribuer trois cartes à chacun
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             distributeCardsPlayer(playerDeck, playerHero);
             distributeCardsOpponent(opponentDeck, opponentHero);
         }
