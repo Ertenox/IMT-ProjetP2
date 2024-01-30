@@ -1,8 +1,13 @@
 package Hearthstone;
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 public class Game {
     public Board playerBoard;
     public Board opponentBoard;
@@ -198,7 +203,41 @@ public class Game {
 
     // Méthode pour simuler un tour de jeu
     private void playTurn(Hero currentHero, Hero opponentHero, Board currentBoard, Board opponentBoard, int tour) {
-        if(tour > 9){
+        Logger logger = Logger.getLogger("MyLog");
+        FileHandler fh;
+        logger.setUseParentHandlers(false);
+
+        logger.info("Tour n°+"+tour);
+
+
+        try {
+
+
+
+            //supprimer le fichier si il existe déjà
+            if (new File("log_partie.log").exists()) {
+                new File("log_partie.log").delete();
+            }
+
+            //Tester si le fichier existe déjà
+            if (new File("log_partie.log").exists()) {
+
+
+            }
+           else{
+                fh = new FileHandler("log_partie.log");
+                logger.addHandler(fh);
+                SimpleFormatter formatter = new SimpleFormatter();
+                fh.setFormatter(formatter);}
+
+        }
+        catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        if (tour > 9) {
             currentHero.setMana(9);
         }
         else {
@@ -211,7 +250,7 @@ public class Game {
         opponentBoard.displayBoard(opponentHero, currentHero);
         System.out.println("Tour de " + currentHero.getName());
         System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n ");
-
+        logger.info("Tour de " + currentHero.getName()+"\n HP = "+currentHero.getHP());
 
 
         while (currentHero.getMana() >= 0) {
@@ -236,8 +275,10 @@ public class Game {
                         int choixCible = sc.nextInt();
                         if (choixCible > 0 && choixCible <= provokers.size()) {
                             currentHero.useHeroPower(provokers.get(choixCible - 1));
+                            logger.info("Le pouvoir du joueur "+currentHero.getName()+" inflige 1 point de dégât à " + provokers.get(choixCible - 1).getName());
                         } else {
                             System.out.println("Choix invalide");
+                            logger.warning("Problème: CIBLE INVALIDE");
                             continue;
                         }
                     } else {
@@ -249,10 +290,13 @@ public class Game {
                         int choixCible = sc.nextInt();
                         if (choixCible == 1) {
                             currentHero.useHeroPower(opponentHero);
+                            logger.info("Le pouvoir du joueur "+currentHero.getName()+" inflige 1 point de dégât à " + opponentHero.getName());
                         } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
                             currentHero.useHeroPower(opponentBoard.getPlayerMonsters().get(choixCible - 2));
+                            logger.info("Le pouvoir du joueur "+currentHero.getName()+" inflige 1 point de dégât à " + opponentBoard.getPlayerMonsters().get(choixCible - 2).getName());
                         } else {
                             System.out.println("Choix invalide");
+                            logger.warning("Problème: CIBLE INVALIDE");
                             continue;
                         }
 
@@ -274,8 +318,10 @@ public class Game {
                         int choixCible = sc.nextInt();
                         if (choixCible > 0 && choixCible <= provokers.size()) {
                             currentHero.useHeroPower(provokers.get(choixCible - 1));
+                            logger.info("Le pouvoir du joueur "+currentHero.getName()+" inflige 1 point de dégât à " + provokers.get(choixCible - 1).getName());
                         } else {
                             System.out.println("Choix invalide");
+                            logger.warning("Problème: CIBLE INVALIDE");
                             continue;
                         }
                     } else {
@@ -288,11 +334,14 @@ public class Game {
                         int choixCible = sc.nextInt();
                         if (choixCible == 1) {
                             currentHero.useHeroPower(opponentHero);
+                            logger.info("Le pouvoir du joueur "+currentHero.getName()+" inflige 1 point de dégât à " + opponentHero.getName());
                         } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
                             currentHero.useHeroPower(opponentBoard.getOpponentMonsters().get(choixCible - 2));
+                            logger.info("Le pouvoir du joueur "+currentHero.getName()+" inflige 1 point de dégât à " + opponentBoard.getOpponentMonsters().get(choixCible - 2).getName());
                         } else {
                             System.out.println("Choix invalide");
-                            System.exit(0);
+                            logger.warning("Problème: CIBLE INVALIDE");
+                            continue;
                         }
                     }
                 }
@@ -304,11 +353,13 @@ public class Game {
                 int choixCarte = sc.nextInt();
                 Card card = currentHero.getHand().get(choixCarte - 1);
                 currentHero.playCard(choixCarte - 1, currentBoard, currentHero);
+                logger.info("Le joueur "+currentHero.getName()+" joue la carte "+card.getName());
                 if (card.getMonster().getType().equals("charge")){
                     card.getMonster().setHasAttacked(false);
                 }
             } else if (choix == 3) {
                 System.out.println("Vous avez choisi de passer le tour");
+                logger.info("Le joueur "+currentHero.getName()+" passe son tour");
                 break;
             }
             else if (choix == 4) {
@@ -349,29 +400,36 @@ public class Game {
                                 int choixCible = sc.nextInt();
                                 if (choixCible == 1) {
                                     currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(opponentHero);
+                                    logger.info("Le monstre "+currentBoard.getPlayerMonsters().get(choixMonstre - 1).getName()+" attaque "+opponentHero.getName());
                                 } else if (choixCible > 1 && choixCible <= opponentBoard.getOpponentMonsters().size() + 1) {
                                     Monster target = opponentBoard.getOpponentMonsters().get(choixCible - 2);
                                     currentBoard.getPlayerMonsters().get(choixMonstre - 1).attack(target);
+                                    logger.info("Le monstre "+currentBoard.getPlayerMonsters().get(choixMonstre - 1).getName()+" attaque "+target.getName());
                                     if (target.getHP() <= 0) {
                                         opponentBoard.getOpponentMonsters().remove(target);
+                                        logger.info("Le monstre "+target.getName()+" appartenant au joueur"+currentHero.getName()+" est mort");
                                     }
                                 } else {
                                     System.out.println("Choix invalide");
-                                    System.exit(0);
+                                    logger.warning("Problème: CIBLE INVALIDE");
+                                    continue;
                                 }
                             }
                         } else {
                             System.out.println("Choix invalide");
-                            System.exit(0);
+                            logger.warning("Problème: CIBLE INVALIDE");
+                            continue;
                         }
                         currentBoard.getPlayerMonsters().get(choixMonstre - 1).setHasAttacked(true);
                     } else {
                         System.out.println("Ce monstre a déjà attaqué");
+                        logger.warning("Problème: MONSTRE DEJA ATTAQUE");
                         continue;
                     }
                     }
                     else {
                         System.out.println("Vous n'avez pas de monstre sur le terrain");
+                        logger.warning("Problème: PAS DE MONSTRE SUR LE TERRAIN");
                         continue;
                     }
                 } else if (currentHero.getID() == 1) {
@@ -396,11 +454,14 @@ public class Game {
                                 if (choixCible > 0 && choixCible <= provokers.size()) {
                                     Monster target = provokers.get(choixCible - 1);
                                     currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
+                                    logger.info("Le monstre "+currentBoard.getOpponentMonsters().get(choixMonstre - 1).getName()+" attaque "+target.getName());
                                     if (target.getHP() <= 0) {
                                         opponentBoard.getPlayerMonsters().remove(target);
+                                        logger.info("Le monstre "+target.getName()+" appartenant au joueur"+currentHero.getName()+" est mort");
                                     }
                                 } else {
                                     System.out.println("Choix invalide");
+                                    logger.warning("Problème: CIBLE INVALIDE");
                                     continue;
                                 }
                             } else {
@@ -415,12 +476,15 @@ public class Game {
                                 } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
                                     Monster target = opponentBoard.getPlayerMonsters().get(choixCible - 2);
                                     currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
+                                    logger.info("Le monstre "+currentBoard.getOpponentMonsters().get(choixMonstre - 1).getName()+" attaque "+target.getName());
                                     if (target.getHP() <= 0) {
                                         opponentBoard.getPlayerMonsters().remove(target);
+                                        logger.info("Le monstre "+target.getName()+" appartenant au joueur"+currentHero.getName()+" est mort");
                                     }
                                 } else {
                                     System.out.println("Choix invalide");
-                                    System.exit(0);
+                                    logger.warning("Problème: CIBLE INVALIDE");
+                                    continue;
                                 }
 
                             }
@@ -428,22 +492,26 @@ public class Game {
 
                         } else {
                             System.out.println("Ce monstre a déjà attaqué");
+                            logger.warning("Problème: MONSTRE DEJA ATTAQUE");
                             continue;
                         }
                     }
                     else {
                         System.out.println("Vous n'avez pas de monstre sur le terrain");
+                        logger.warning("Problème: PAS DE MONSTRE SUR LE TERRAIN");
                         continue;
                     }
                 }
             } else if (choix == 5) {
                 System.out.println("Vous avez choisi d'afficher la main");
+                logger.info("Le joueur "+currentHero.getName()+" affiche sa main");
                 currentHero.viewHand();
 
 
             } else {
                 System.out.println("Choix invalide");
-                System.exit(0);
+                logger.warning("Problème: CHOIX INVALIDE");
+                continue;
             }
 
 
@@ -453,6 +521,7 @@ public class Game {
             // Vérifier si le Hero adverse est mis KO
             if (!opponentHero.isAlive()) {
                 System.out.println("Le Hero " + opponentHero.getName() + " est mis KO. " + currentHero.getName() + " remporte la partie!");
+                logger.info("Le joueur "+currentHero.getName()+" remporte la partie");
                 System.exit(0);
             }
         }
