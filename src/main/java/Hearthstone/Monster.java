@@ -79,6 +79,10 @@ public class Monster implements Entity, Attacker{
         this.hasAttacked = hasAttacked;
     }
 
+    public boolean isDead() {
+        return this.hp <= 0;
+    }
+
 
     @Override
     public void attack(Entity target) {
