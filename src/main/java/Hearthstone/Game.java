@@ -216,11 +216,6 @@ public class Game {
                 new File("log_partie.log").delete();
             }
 
-            //Tester si le fichier existe déjà
-            if (new File("log_partie.log").exists()) {
-
-
-            }
            else{
                 FileHandler fh;
                 logger.setUseParentHandlers(false);
