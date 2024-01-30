@@ -60,7 +60,11 @@ public class Monster implements Entity, Attacker{
         return type;
     }
 
-
+    public void heal(Entity target, int heal) {
+        if (target != null) {
+            target.setHP(target.getHP() + heal);
+        }
+    }
 
     @Override
     public void takeDamage(int damage) {
@@ -70,6 +74,11 @@ public class Monster implements Entity, Attacker{
     @Override
     public boolean isAlive() {
         return this.hp > 0;
+    }
+
+    @Override
+    public void setHP(int i) {
+        this.hp = i;
     }
 
     public boolean gethasAttacked() {

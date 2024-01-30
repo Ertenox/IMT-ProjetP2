@@ -247,12 +247,12 @@ public class Game {
         currentBoard.displayBoard(currentHero, opponentHero);
         opponentBoard.displayBoard(opponentHero, currentHero);
         System.out.println("Tour de " + currentHero.getName());
-        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n ");
+        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana());
         logger.info("Tour de " + currentHero.getName()+"\n HP = "+currentHero.getHP());
 
 
         while (currentHero.getMana() >= 0) {
-            System.out.println("Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte  \n 3- Attaquer avec un monstre \n 4- Afficher la main \n 5- Passer le tour \n Mana actuelle : "+ currentHero.getMana());
+            System.out.println("Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte  \n 3- Attaquer avec un monstre \n 4- Utiliser un soigneur \n 5- Afficher la main \n 6- Passer le tour \n Mana actuelle : "+ currentHero.getMana());
 
 
             Scanner sc = new Scanner(System.in);
@@ -355,7 +355,7 @@ public class Game {
                 if (card.getMonster().getType().equals("charge")){
                     card.getMonster().setHasAttacked(false);
                 }
-            } else if (choix == 5) {
+            } else if (choix == 6) {
                 System.out.println("Vous avez choisi de passer le tour");
                 logger.info("Le joueur "+currentHero.getName()+" passe son tour");
                 break;
@@ -500,7 +500,88 @@ public class Game {
                         continue;
                     }
                 }
-            } else if (choix == 4) {
+            }
+            else if (choix == 4) {
+                System.out.println("Vous avez choisi d'utiliser une capacité de soigneur");
+                if (currentHero.getID() == 0){
+                    List<Monster> healer = new ArrayList<Monster>();
+
+                    for(int i=0; i<currentBoard.getPlayerMonsters().size(); i++) {
+                        if (currentBoard.getPlayerMonsters().get(i).getType() == "heal") {
+                            healer.add(currentBoard.getPlayerMonsters().get(i));
+                        }
+                    }
+                    if(!healer.isEmpty()){
+                        System.out.println("Choisissez un soigneur: ");
+                        for (int j=0; j<healer.size(); j++){
+                            System.out.println(j+1+"- "+healer.get(j).getName());
+                        }
+                        int choixHeal = sc.nextInt();
+                        if (choixHeal > 0 && choixHeal <= healer.size()){
+                            if (!currentBoard.getPlayerMonsters().get(choixHeal-1).gethasAttacked()) {
+                                currentBoard.getPlayerMonsters().get(choixHeal - 1).heal(currentHero, currentBoard.getPlayerMonsters().get(choixHeal - 1).getAttack());
+                                logger.info("Le soigneur " + currentBoard.getPlayerMonsters().get(choixHeal - 1).getName() + " soigne " + currentHero.getName());
+                                currentBoard.getPlayerMonsters().get(choixHeal - 1).setHasAttacked(true);
+                            }
+                            else{
+                                System.out.println("Ce monstre a déjà soigne ce tour");
+                                logger.warning("Problème: MONSTRE DEJA SOIGNE CE TOUR");
+                                continue;
+                            }
+                        }
+                        else{
+                            System.out.println("Choix invalide");
+                            logger.warning("Problème: CIBLE INVALIDE");
+                            continue;
+                        }
+                    }
+                    else{
+                        System.out.println("Vous n'avez pas de soigneur sur le terrain");
+                        logger.warning("Problème: PAS DE SOIGNEUR SUR LE TERRAIN");
+                        continue;
+                    }
+                }
+                else if (currentHero.getID() == 1){
+                    List<Monster> healer = new ArrayList<Monster>();
+
+                    for(int i=0; i<currentBoard.getOpponentMonsters().size(); i++) {
+                        if (currentBoard.getOpponentMonsters().get(i).getType() == "heal") {
+                            healer.add(currentBoard.getOpponentMonsters().get(i));
+                        }
+                    }
+                    if(!healer.isEmpty()){
+                        System.out.println("Choisissez un soigneur: ");
+                        for (int j=0; j<healer.size(); j++){
+                            System.out.println(j+1+"- "+healer.get(j).getName());
+                        }
+                        int choixHeal = sc.nextInt();
+                        if (choixHeal > 0 && choixHeal <= healer.size()){
+                            if (!currentBoard.getOpponentMonsters().get(choixHeal-1).gethasAttacked()) {
+                                currentBoard.getOpponentMonsters().get(choixHeal - 1).heal(currentHero, currentBoard.getOpponentMonsters().get(choixHeal - 1).getAttack());
+                                logger.info("Le soigneur " + currentBoard.getOpponentMonsters().get(choixHeal - 1).getName() + " soigne " + currentHero.getName());
+                                currentBoard.getOpponentMonsters().get(choixHeal - 1).setHasAttacked(true);
+                            }
+                            else{
+                                System.out.println("Ce monstre a déjà soigné ce tour");
+                                logger.warning("Problème: MONSTRE DEJA SOIGNE CE TOUR");
+                                continue;
+                            }
+                        }
+                        else{
+                            System.out.println("Choix invalide");
+                            logger.warning("Problème: CIBLE INVALIDE");
+                            continue;
+                        }
+                    }
+                    else{
+                        System.out.println("Vous n'avez pas de soigneur sur le terrain");
+                        logger.warning("Problème: PAS DE SOIGNEUR SUR LE TERRAIN");
+                        continue;
+                    }
+                }
+
+        }
+            else if (choix == 5) {
                 System.out.println("Vous avez choisi d'afficher la main");
                 logger.info("Le joueur "+currentHero.getName()+" affiche sa main");
                 currentHero.viewHand();

@@ -27,4 +27,9 @@ public class PlayerHero extends Hero{
     public int getHP() {
         return this.hp;
     }
+
+    @Override
+    public void setHP(int i) {
+        this.hp = i;
+    }
 }

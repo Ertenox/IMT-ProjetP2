@@ -6,4 +6,6 @@ public interface Entity {
     int getHP();
     void takeDamage(int damage);
     boolean isAlive();
+
+    void setHP(int i);
 }
