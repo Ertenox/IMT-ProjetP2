@@ -33,7 +33,7 @@ public abstract class Hero implements Entity{
         // Afficher la main du champion
         System.out.println("Main de " + getName() + ":");
         for (int i = 0; i < hand.size(); i++) {
-            System.out.println((i + 1) + ". " + hand.get(i).getName() + " (" + hand.get(i).getManaCost() + " mana "+ hand.get(i).getMonster().getAttack()+"attaque" + hand.get(i).getMonster().getHP() + " hp)");
+            System.out.println((i + 1) + ". " + hand.get(i).getName() + " (" + hand.get(i).getManaCost() + " mana "+ hand.get(i).getMonster().getAttack()+" attaque " + hand.get(i).getMonster().getHP() + " hp)");
         }
     }
 

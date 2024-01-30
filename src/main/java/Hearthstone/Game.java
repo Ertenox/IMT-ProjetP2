@@ -43,7 +43,7 @@ public class Game {
         Monster behemoth = new Monster("Behemoth ", 10, 8, playerBoard,true, "normal");
         Monster orchestratrice = new Monster("Orchestratrice ", 6, 3, playerBoard,true, "provoke");
         Monster gigantotem = new Monster("Gigantotem ", 8, 8, playerBoard,true, "charge");
-        Monster rockeuse = new Monster("Rockeuse ", 3, 2, playerBoard,true, "normal");
+        Monster rockeuse = new Monster("Rockeuse ", 3, 2, playerBoard,true, "heal");
         Monster drake = new Monster("Drake ", 8, 4, playerBoard,true, "provoke");
 
 
@@ -96,7 +96,7 @@ public class Game {
         Monster behemoth = new Monster("Behemoth ", 10, 8, opponentBoard,true, "normal");
         Monster orchestratrice = new Monster("Orchestratrice ", 6, 3, opponentBoard,true, "provoke");
         Monster gigantotem = new Monster("Gigantotem ", 8, 8, opponentBoard,true, "charge");
-        Monster rockeuse = new Monster("Rockeuse ", 3, 2, opponentBoard,true, "normal");
+        Monster rockeuse = new Monster("Rockeuse ", 3, 2, opponentBoard,true, "heal");
         Monster drake = new Monster("Drake ", 8, 4, opponentBoard,true, "provoke");
 
 
@@ -252,7 +252,7 @@ public class Game {
 
 
         while (currentHero.getMana() >= 0) {
-            System.out.println("Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour \n 4- Attaquer avec un monstre \n 5- Afficher la main \n Mana actuelle: "+ currentHero.getMana());
+            System.out.println("Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte  \n 3- Attaquer avec un monstre \n 4- Afficher la main \n 5- Passer le tour \n Mana actuelle : "+ currentHero.getMana());
 
 
             Scanner sc = new Scanner(System.in);
@@ -355,12 +355,12 @@ public class Game {
                 if (card.getMonster().getType().equals("charge")){
                     card.getMonster().setHasAttacked(false);
                 }
-            } else if (choix == 3) {
+            } else if (choix == 5) {
                 System.out.println("Vous avez choisi de passer le tour");
                 logger.info("Le joueur "+currentHero.getName()+" passe son tour");
                 break;
             }
-            else if (choix == 4) {
+            else if (choix == 3) {
                 System.out.print("Quel monstre va attaquer ? : ");
                 if (currentHero.getID() == 0) {
                     if (!currentBoard.getPlayerMonsters().isEmpty()){
@@ -500,7 +500,7 @@ public class Game {
                         continue;
                     }
                 }
-            } else if (choix == 5) {
+            } else if (choix == 4) {
                 System.out.println("Vous avez choisi d'afficher la main");
                 logger.info("Le joueur "+currentHero.getName()+" affiche sa main");
                 currentHero.viewHand();
