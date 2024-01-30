@@ -86,7 +86,6 @@ public class Board {
 
         if (playerHero.getID() == 0) {
             if (playerMonsters.size() == 0) {
-                System.out.println("Aucun monstre sur le plateau.");
             }
             else {
                 System.out.println("Monstres: ");
@@ -94,12 +93,20 @@ public class Board {
             }
         } else {
             if (opponentMonsters.size() == 0) {
-                System.out.println("Aucun monstre sur le plateau.");
             }
             else {
                 System.out.println("Monstres: ");
                 displayOpponentMonsters();
             }
+        }
+    }
+
+    public void resetMonstre() {
+        for (Monster monster : playerMonsters) {
+            monster.setHasAttacked(false);
+        }
+        for (Monster monster : opponentMonsters) {
+            monster.setHasAttacked(false);
         }
     }
 

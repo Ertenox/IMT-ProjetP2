@@ -25,10 +25,10 @@ public class Game {
 
     private List<Card> generateDeckPlayer() {
         List<Card> deckPlayer = new ArrayList<>();
-        Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, playerBoard,false, "normal");
-        Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard,false, "provoke");
-        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard,false, "normal");
-        Monster MagmaDog = new Monster("Chien de magma ", 5, 9, playerBoard,false, "normal");
+        Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, playerBoard,true, "normal");
+        Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard,true, "provoke");
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard,true, "normal");
+        Monster MagmaDog = new Monster("Chien de magma ", 5, 9, playerBoard,true, "normal");
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, playerHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, playerHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, playerHero);
@@ -42,10 +42,10 @@ public class Game {
 
     private List<Card> generateDeckOpponent() {
         List<Card> deckOpponent = new ArrayList<>();
-        Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard,false, "normal");
-        Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard,false, "provoke");
-        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard,false,"normal");
-        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard,false, "normal");
+        Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard,true, "normal");
+        Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard,true, "provoke");
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard,true,"normal");
+        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard,true, "normal");
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte2, opponentHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron2, opponentHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, opponentHero);
@@ -206,6 +206,7 @@ public class Game {
             else if (choix == 4) {
                 System.out.print("Quel monstre va attaquer ? : ");
                 if (currentHero.getID() == 0) {
+                    if (!currentBoard.getPlayerMonsters().isEmpty()){
                     currentBoard.displayPlayerMonsters();
                     Scanner sc2 = new Scanner(System.in);
                     int choixMonstre = sc2.nextInt();
@@ -261,59 +262,71 @@ public class Game {
                         System.out.println("Ce monstre a déjà attaqué");
                         continue;
                     }
+                    }
+                    else {
+                        System.out.println("Vous n'avez pas de monstre sur le terrain");
+                        continue;
+                    }
                 } else if (currentHero.getID() == 1) {
-                    System.out.println("Vous avez choisi de faire attaquer un monstre");
 
-                    currentBoard.displayOpponentMonsters();
-                    Scanner sc2 = new Scanner(System.in);
-                    int choixMonstre = sc2.nextInt();
-                    if (!currentBoard.getOpponentMonsters().get(choixMonstre - 1).gethasAttacked()) {
-                        List<Monster> provokers = new ArrayList<Monster>();
-                        System.out.println("Choisissez une cible: ");
-                        for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
-                            if (opponentBoard.getPlayerMonsters().get(i).getType() == "provoke") {
-                                System.out.println(i + 1 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
-                                provokers.add(opponentBoard.getPlayerMonsters().get(i));
-                            }
-                        }
-                        if (provokers.size() > 0) {
-                            System.out.println("Des provocateurs sont sur le terrain, Choisissez une cible: ");
-                            int choixCible = sc.nextInt();
-                            if (choixCible > 0 && choixCible <= provokers.size()) {
-                                Monster target = provokers.get(choixCible - 1);
-                                currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
-                                if (target.getHP() <= 0) {
-                                    opponentBoard.getPlayerMonsters().remove(target);
-                                }
-                            } else {
-                                System.out.println("Choix invalide");
-                                continue;
-                            }
-                        } else {
+                    if (!currentBoard.getOpponentMonsters().isEmpty()) {
+                        System.out.println("Vous avez choisi de faire attaquer un monstre");
+
+                        currentBoard.displayOpponentMonsters();
+                        Scanner sc2 = new Scanner(System.in);
+                        int choixMonstre = sc2.nextInt();
+                        if (!currentBoard.getOpponentMonsters().get(choixMonstre - 1).gethasAttacked()) {
+                            List<Monster> provokers = new ArrayList<Monster>();
                             System.out.println("Choisissez une cible: ");
-                            System.out.println("1- Hero adverse");
                             for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
-                                System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                                if (opponentBoard.getPlayerMonsters().get(i).getType() == "provoke") {
+                                    System.out.println(i + 1 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                                    provokers.add(opponentBoard.getPlayerMonsters().get(i));
+                                }
                             }
-                            int choixCible = sc.nextInt();
-                            if (choixCible == 1) {
-                                currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(opponentHero);
-                            } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
-                                Monster target = opponentBoard.getPlayerMonsters().get(choixCible - 2);
-                                currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
-                                if (target.getHP() <= 0) {
-                                    opponentBoard.getPlayerMonsters().remove(target);
+                            if (provokers.size() > 0) {
+                                System.out.println("Des provocateurs sont sur le terrain, Choisissez une cible: ");
+                                int choixCible = sc.nextInt();
+                                if (choixCible > 0 && choixCible <= provokers.size()) {
+                                    Monster target = provokers.get(choixCible - 1);
+                                    currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
+                                    if (target.getHP() <= 0) {
+                                        opponentBoard.getPlayerMonsters().remove(target);
+                                    }
+                                } else {
+                                    System.out.println("Choix invalide");
+                                    continue;
                                 }
                             } else {
-                                System.out.println("Choix invalide");
-                                System.exit(0);
+                                System.out.println("Choisissez une cible: ");
+                                System.out.println("1- Hero adverse");
+                                for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
+                                    System.out.println(i + 2 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
+                                }
+                                int choixCible = sc.nextInt();
+                                if (choixCible == 1) {
+                                    currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(opponentHero);
+                                } else if (choixCible > 1 && choixCible <= opponentBoard.getPlayerMonsters().size() + 1) {
+                                    Monster target = opponentBoard.getPlayerMonsters().get(choixCible - 2);
+                                    currentBoard.getOpponentMonsters().get(choixMonstre - 1).attack(target);
+                                    if (target.getHP() <= 0) {
+                                        opponentBoard.getPlayerMonsters().remove(target);
+                                    }
+                                } else {
+                                    System.out.println("Choix invalide");
+                                    System.exit(0);
+                                }
+
                             }
+                            currentBoard.getOpponentMonsters().get(choixMonstre - 1).setHasAttacked(true);
 
+                        } else {
+                            System.out.println("Ce monstre a déjà attaqué");
+                            continue;
                         }
-                        currentBoard.getOpponentMonsters().get(choixMonstre - 1).setHasAttacked(true);
-
-                    } else {
-                        System.out.println("Ce monstre a déjà attaqué");
+                    }
+                    else {
+                        System.out.println("Vous n'avez pas de monstre sur le terrain");
                         continue;
                     }
                 }
@@ -334,6 +347,8 @@ public class Game {
                 System.exit(0);
             }
         }
+        currentBoard.resetMonstre();
+        opponentBoard.resetMonstre();
     }
 
 
