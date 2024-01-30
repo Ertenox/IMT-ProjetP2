@@ -26,7 +26,7 @@ public class OpponentHeroPower implements HeroPower {
             }
         } else if (type.equals("Guerrier")) {
             if(target instanceof Monster){
-                System.out.println("Le pouvoir du Guerrier inflige 2 points de dégât à "+ target.getName() +".");
+                System.out.println("Le pouvoir du Guerrier inflige 1 points de dégât à "+ target.getName() +".");
                 target.takeDamage(1);
                 if (target.getHP() <= 0) {
                     System.out.println(target.getName() + " est mort.");
@@ -34,7 +34,7 @@ public class OpponentHeroPower implements HeroPower {
 
                 }
             } else if (target instanceof PlayerHero) {
-                System.out.println("Le pouvoir du Guerrier inflige 2 points de dégât à l'adversaire.");
+                System.out.println("Le pouvoir du Guerrier inflige 1 points de dégât à l'adversaire.");
                 target.takeDamage(1);
             }
 
