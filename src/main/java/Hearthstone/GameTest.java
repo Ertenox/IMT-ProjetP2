@@ -52,6 +52,47 @@ public class GameTest {
         assertEquals(2, monster.getHP());
     }
 
+    @Test
+    public void testMonsterHero(){
+// Création des instances nécessaires pour le test
+        Board board = new Board();
+        PlayerHeroPower playerHeroPower = new PlayerHeroPower("Mage");
+        OpponentHeroPower opponentHeroPower = new OpponentHeroPower("Guerrier");
+        PlayerHero currentPlayer = new PlayerHero("Joueur 1", 20, playerHeroPower, 0);
+        OpponentHero opponentPlayer = new OpponentHero("Joueur 2", 20, opponentHeroPower, 0);
+        board.setPlayerHero(currentPlayer);
+        board.setOpponentHero(opponentPlayer);
+        Monster monster = new Monster("Monstre", 5, 20, board, false, "Neutre");
+
+        board.addPlayerMonster(monster);
+        // Joueur actuel joue la carte jusqu'à ce que le héros adversaire soit mis KO
+
+        while (opponentPlayer.isAlive()) {
+            monster.attack(opponentPlayer);
+        }
+        board.removePlayerMonster(monster);
+        // Vérification si le héros adversaire est mis KO
+        assertTrue(opponentPlayer.isDead());
+    }
+
+    @Test
+    public void testRemoveMonster(){
+        Board board = new Board();
+        PlayerHeroPower playerHeroPower = new PlayerHeroPower("Mage");
+        OpponentHeroPower opponentHeroPower = new OpponentHeroPower("Guerrier");
+        PlayerHero currentPlayer = new PlayerHero("Joueur 1", 20, playerHeroPower, 0);
+        OpponentHero opponentPlayer = new OpponentHero("Joueur 2", 20, opponentHeroPower, 0);
+        board.setPlayerHero(currentPlayer);
+        board.setOpponentHero(opponentPlayer);
+        Monster monster = new Monster("Monstre", 5, 20, board, false, "Neutre");
+
+        board.addPlayerMonster(monster);
+
+        assertEquals(1, board.getPlayerMonsters().size());
+        board.removePlayerMonster(monster);
+        assertEquals(0, board.getPlayerMonsters().size());
+    }
+
 }
 
 
