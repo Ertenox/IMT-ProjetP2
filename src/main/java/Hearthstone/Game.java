@@ -35,6 +35,12 @@ public class Game {
         Monster dagueTueuse = new Monster("Dague tueuse ", 1, 7, playerBoard,true, "normal");
         Monster licheKing = new Monster("Roi liche ", 8, 8, playerBoard,true, "normal");
         Monster killerGoblin = new Monster("Gobelin tueur ", 3, 2, playerBoard,true, "normal");
+        Monster behemoth = new Monster("Behemoth ", 10, 8, playerBoard,true, "normal");
+        Monster orchestratrice = new Monster("Orchestratrice ", 6, 3, playerBoard,true, "provoke");
+        Monster gigantotem = new Monster("Gigantotem ", 8, 8, playerBoard,true, "charge");
+        Monster rockeuse = new Monster("Rockeuse ", 3, 2, playerBoard,true, "normal");
+        Monster drake = new Monster("Drake ", 8, 4, playerBoard,true, "provoke");
+
 
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, playerHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, playerHero);
@@ -45,6 +51,13 @@ public class Game {
         Card card7 = new Card("Murloc ", 1, "Murloc", murloc, playerHero);
         Card card8 = new Card("Dague tueuse ", 3, "Arme", dagueTueuse, playerHero);
         Card card9 = new Card("Roi liche ", 8, "Mort vivant", licheKing, playerHero);
+        Card card10 = new Card("Gobelin tueur ", 3, "Mort vivant", killerGoblin, playerHero);
+        Card card11 = new Card("Behemoth ", 7, "Bête", behemoth, playerHero);
+        Card card12 = new Card("Orchestratrice funeste  ", 5, "Humain", orchestratrice, playerHero);
+        Card card13 = new Card("Gigantotem ", 9, "Totem", gigantotem, playerHero);
+        Card card14 = new Card("Rockeuse redoutable ", 3, "Orc", rockeuse, playerHero);
+        Card card15 = new Card("Drake thorignir ", 8, "Dragon", drake, playerHero);
+
         deckPlayer.add(card);
         deckPlayer.add(card2);
         deckPlayer.add(card3);
@@ -54,6 +67,12 @@ public class Game {
         deckPlayer.add(card7);
         deckPlayer.add(card8);
         deckPlayer.add(card9);
+        deckPlayer.add(card10);
+        deckPlayer.add(card11);
+        deckPlayer.add(card12);
+        deckPlayer.add(card13);
+        deckPlayer.add(card14);
+        deckPlayer.add(card15);
         return deckPlayer;
     }
 
@@ -69,6 +88,12 @@ public class Game {
         Monster dagueTueuse = new Monster("Dague tueuse ", 1, 7, opponentBoard,true, "normal");
         Monster licheKing = new Monster("Roi liche ", 8, 8, opponentBoard,true, "normal");
         Monster killerGoblin = new Monster("Gobelin tueur ", 3, 2, opponentBoard,true, "normal");
+        Monster behemoth = new Monster("Behemoth ", 10, 8, opponentBoard,true, "normal");
+        Monster orchestratrice = new Monster("Orchestratrice ", 6, 3, opponentBoard,true, "provoke");
+        Monster gigantotem = new Monster("Gigantotem ", 8, 8, opponentBoard,true, "charge");
+        Monster rockeuse = new Monster("Rockeuse ", 3, 2, opponentBoard,true, "normal");
+        Monster drake = new Monster("Drake ", 8, 4, opponentBoard,true, "provoke");
+
 
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, opponentHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, opponentHero);
@@ -79,6 +104,12 @@ public class Game {
         Card card7 = new Card("Murloc ", 1, "Murloc", murloc, opponentHero);
         Card card8 = new Card("Dague tueuse ", 3, "Arme", dagueTueuse, opponentHero);
         Card card9 = new Card("Roi liche ", 8, "Mort vivant", licheKing, opponentHero);
+        Card card10 = new Card("Gobelin tueur ", 3, "Mort vivant", killerGoblin, opponentHero);
+        Card card11 = new Card("Behemoth ", 7, "Bête", behemoth, opponentHero);
+        Card card12 = new Card("Orchestratrice funeste  ", 5, "Humain", orchestratrice, opponentHero);
+        Card card13 = new Card("Gigantotem ", 9, "Totem", gigantotem, opponentHero);
+        Card card14 = new Card("Rockeuse redoutable ", 3, "Orc", rockeuse, opponentHero);
+        Card card15 = new Card("Drake thorignir ", 8, "Dragon", drake, opponentHero);
 
         deckOpponent.add(card);
         deckOpponent.add(card2);
@@ -89,6 +120,12 @@ public class Game {
         deckOpponent.add(card7);
         deckOpponent.add(card8);
         deckOpponent.add(card9);
+        deckOpponent.add(card10);
+        deckOpponent.add(card11);
+        deckOpponent.add(card12);
+        deckOpponent.add(card13);
+        deckOpponent.add(card14);
+        deckOpponent.add(card15);
         return deckOpponent;
     }
 
@@ -97,25 +134,38 @@ public class Game {
         //generer un nombre aléatoire entre 0 et 20
         //generer un nombre aléatoire entre 0 et et la taille du deck
         int randomCard = (int)(Math.random() * deck.size());
-        System.out.println(randomCard);
         if (randomCard == 0){
             randomCard = 1;
         }
-        Card card = deck.get(randomCard);
-        //ajouter une carte à la main du joueur
-        Hero.addCardToHand(card);
-        //retirer la carte du deck
-        deck.remove(randomCard);
+        if (deck.isEmpty() || deck.size() == 1){
+            System.out.println("Le deck est vide");
+        }
+        else {
+            Card card = deck.get(randomCard);
+            //ajouter une carte à la main du joueur
+            Hero.addCardToHand(card);
+            //retirer la carte du deck
+            deck.remove(randomCard);
+        }
+
     }
     private void distributeCardsOpponent(List<Card> deck, OpponentHero Hero) {
         // Logique pour distribuer des cartes au joueur 2
         //generer un nombre aléatoire entre 0 et et la taille du deck
         int randomCard = (int)(Math.random() * deck.size());
-        Card card = deck.get(randomCard);
-        //ajouter une carte à la main du joueur
-        Hero.addCardToHand(card);
-        //retirer la carte du deck
-        deck.remove(randomCard);
+        if (randomCard == 0){
+            randomCard = 1;
+        }
+        if (deck.isEmpty() || deck.size() == 1){
+            System.out.println("Le deck est vide");
+        }
+        else {
+            Card card = deck.get(randomCard);
+            //ajouter une carte à la main du joueur
+            Hero.addCardToHand(card);
+            //retirer la carte du deck
+            deck.remove(randomCard);
+        }
     }
 
     // Méthode pour démarrer le jeu
@@ -154,15 +204,19 @@ public class Game {
         else {
             currentHero.setMana(tour);
         }
+        //Méthode pour afficher le board
+
+        opponentBoard.displayOpponentMonsters();
+        currentBoard.displayBoard(currentHero, opponentHero);
+        opponentBoard.displayBoard(opponentHero, currentHero);
+        System.out.println("Tour de " + currentHero.getName());
+        System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n ");
+
+
 
         while (currentHero.getMana() >= 0) {
+            System.out.println("Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour \n 4- Attaquer avec un monstre \n 5- Afficher la main \n Mana actuelle: "+ currentHero.getMana());
 
-            //Méthode pour afficher le board
-            opponentBoard.displayOpponentMonsters();
-            currentBoard.displayBoard(currentHero, opponentHero);
-            opponentBoard.displayBoard(opponentHero, currentHero);
-            System.out.println("Tour de " + currentHero.getName());
-            System.out.println("Points de vie de " + currentHero.getName() + ": " + currentHero.getHP()+ "\n Points de mana: "+ currentHero.getMana()+"\n Que faire ? : \n 1- Utiliser le pouvoir du joueur \n 2- Jouer une carte \n 3- Passer le tour \n 4- Attaquer avec un monstre");
 
             Scanner sc = new Scanner(System.in);
             int choix = sc.nextInt();
@@ -267,7 +321,6 @@ public class Game {
                     if (!currentBoard.getPlayerMonsters().get(choixMonstre - 1).gethasAttacked()) {
                         if (choixMonstre > 0 && choixMonstre <= currentBoard.getPlayerMonsters().size()) {
                             List<Monster> provokers = new ArrayList<Monster>();
-                            System.out.println("Choisissez une cible: ");
                             for (int i = 0; i < opponentBoard.getOpponentMonsters().size(); i++) {
                                 if (opponentBoard.getOpponentMonsters().get(i).getType() == "provoke") {
                                     System.out.println(i + 1 + "- " + opponentBoard.getOpponentMonsters().get(i).getName());
@@ -331,7 +384,6 @@ public class Game {
                         int choixMonstre = sc2.nextInt();
                         if (!currentBoard.getOpponentMonsters().get(choixMonstre - 1).gethasAttacked()) {
                             List<Monster> provokers = new ArrayList<Monster>();
-                            System.out.println("Choisissez une cible: ");
                             for (int i = 0; i < opponentBoard.getPlayerMonsters().size(); i++) {
                                 if (opponentBoard.getPlayerMonsters().get(i).getType() == "provoke") {
                                     System.out.println(i + 1 + "- " + opponentBoard.getPlayerMonsters().get(i).getName());
@@ -384,9 +436,12 @@ public class Game {
                         continue;
                     }
                 }
-            }
+            } else if (choix == 5) {
+                System.out.println("Vous avez choisi d'afficher la main");
+                currentHero.viewHand();
 
-            else {
+
+            } else {
                 System.out.println("Choix invalide");
                 System.exit(0);
             }
