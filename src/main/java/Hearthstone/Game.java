@@ -175,7 +175,35 @@ public class Game {
 
     // Méthode pour démarrer le jeu
     public void startGame() {
+        Logger logger = Logger.getLogger("MyLog");
 
+
+
+        try {
+
+
+
+            //supprimer le fichier si il existe déjà
+            if (new File("log_partie.log").exists()) {
+                new File("log_partie.log").delete();
+            }
+
+            else{
+                FileHandler fh;
+                logger.setUseParentHandlers(false);
+
+                fh = new FileHandler("log_partie.log");
+                logger.addHandler(fh);
+                SimpleFormatter formatter = new SimpleFormatter();
+                fh.setFormatter(formatter);}
+
+        }
+        catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
         System.out.println("Début du jeu.");
         opponentHero.setMana(1);
         playerHero.setMana(1);
@@ -192,8 +220,8 @@ public class Game {
         while (playerHero.isAlive() && opponentHero.isAlive()) {
             //compter le nombre de tours
             manaMax++;
-            playTurn(playerHero, opponentHero, playerBoard, opponentBoard,manaMax);
-            playTurn(opponentHero, playerHero, opponentBoard, playerBoard,manaMax);
+            playTurn(playerHero, opponentHero, playerBoard, opponentBoard,manaMax,logger);
+            playTurn(opponentHero, playerHero, opponentBoard, playerBoard,manaMax,logger);
 
         }
 
@@ -202,37 +230,8 @@ public class Game {
     }
 
     // Méthode pour simuler un tour de jeu
-    private void playTurn(Hero currentHero, Hero opponentHero, Board currentBoard, Board opponentBoard, int tour) {
-        Logger logger = Logger.getLogger("MyLog");
+    private void playTurn(Hero currentHero, Hero opponentHero, Board currentBoard, Board opponentBoard, int tour, Logger logger) {
 
-
-
-        try {
-
-
-
-            //supprimer le fichier si il existe déjà
-            if (new File("log_partie.log").exists()) {
-                new File("log_partie.log").delete();
-            }
-
-           else{
-                FileHandler fh;
-                logger.setUseParentHandlers(false);
-
-                logger.info("Tour n°+"+tour);
-                fh = new FileHandler("log_partie.log");
-                logger.addHandler(fh);
-                SimpleFormatter formatter = new SimpleFormatter();
-                fh.setFormatter(formatter);}
-
-        }
-        catch (SecurityException e) {
-            e.printStackTrace();
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
         if (tour > 9) {
             currentHero.setMana(9);
         }
