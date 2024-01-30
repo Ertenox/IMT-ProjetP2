@@ -204,10 +204,7 @@ public class Game {
     // Méthode pour simuler un tour de jeu
     private void playTurn(Hero currentHero, Hero opponentHero, Board currentBoard, Board opponentBoard, int tour) {
         Logger logger = Logger.getLogger("MyLog");
-        FileHandler fh;
-        logger.setUseParentHandlers(false);
 
-        logger.info("Tour n°+"+tour);
 
 
         try {
@@ -225,6 +222,10 @@ public class Game {
 
             }
            else{
+                FileHandler fh;
+                logger.setUseParentHandlers(false);
+
+                logger.info("Tour n°+"+tour);
                 fh = new FileHandler("log_partie.log");
                 logger.addHandler(fh);
                 SimpleFormatter formatter = new SimpleFormatter();
