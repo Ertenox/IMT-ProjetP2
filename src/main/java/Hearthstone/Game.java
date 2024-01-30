@@ -45,7 +45,7 @@ public class Game {
         Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard,true, "normal");
         Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard,true, "provoke");
         Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard,true,"normal");
-        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard,true, "normal");
+        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard,true, "charge");
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte2, opponentHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron2, opponentHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, opponentHero);
@@ -198,7 +198,11 @@ public class Game {
                 currentHero.viewHand();
                 System.out.println("Choisissez une carte à jouer: ");
                 int choixCarte = sc.nextInt();
+                Card card = currentHero.getHand().get(choixCarte - 1);
                 currentHero.playCard(choixCarte - 1, currentBoard, currentHero);
+                if (card.getMonster().getType().equals("charge")){
+                    card.getMonster().setHasAttacked(false);
+                }
             } else if (choix == 3) {
                 System.out.println("Vous avez choisi de passer le tour");
                 currentHero.setMana(0);

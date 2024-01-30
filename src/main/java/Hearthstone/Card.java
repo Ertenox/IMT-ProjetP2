@@ -25,6 +25,10 @@ public class Card {
         return manaCost;
     }
 
+    public Monster getMonster() {
+        return monster;
+    }
+
     public void playCard(Hero currentHero) {
         // Logique pour jouer la carte
         System.out.println("La carte " + name + " est jouée.");
