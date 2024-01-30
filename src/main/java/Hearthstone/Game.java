@@ -29,49 +29,93 @@ public class Game {
         Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, playerBoard,true, "provoke");
         Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, playerBoard,true, "normal");
         Monster MagmaDog = new Monster("Chien de magma ", 5, 9, playerBoard,true, "normal");
+        Monster petitGars = new Monster("Petit gars ", 1, 1, playerBoard,true, "charge");
+        Monster stormwindGuard = new Monster("Garde de Hurlevent ", 5, 1, playerBoard,true, "provoke");
+        Monster murloc = new Monster("Murloc ", 2, 1, playerBoard,true, "charge");
+        Monster dagueTueuse = new Monster("Dague tueuse ", 1, 7, playerBoard,true, "normal");
+        Monster licheKing = new Monster("Roi liche ", 8, 8, playerBoard,true, "normal");
+        Monster killerGoblin = new Monster("Gobelin tueur ", 3, 2, playerBoard,true, "normal");
+
         Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, playerHero);
         Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, playerHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, playerHero);
         Card card4 = new Card("Chien de magma ", 7, "Bête", MagmaDog, playerHero);
+        Card card5 = new Card("Petit gars ", 1, "Bête", petitGars, playerHero);
+        Card card6 = new Card("Garde de Hurlevent ", 4, "Humain", stormwindGuard, playerHero);
+        Card card7 = new Card("Murloc ", 1, "Murloc", murloc, playerHero);
+        Card card8 = new Card("Dague tueuse ", 3, "Arme", dagueTueuse, playerHero);
+        Card card9 = new Card("Roi liche ", 8, "Mort vivant", licheKing, playerHero);
         deckPlayer.add(card);
         deckPlayer.add(card2);
         deckPlayer.add(card3);
         deckPlayer.add(card4);
+        deckPlayer.add(card5);
+        deckPlayer.add(card6);
+        deckPlayer.add(card7);
+        deckPlayer.add(card8);
+        deckPlayer.add(card9);
         return deckPlayer;
     }
 
     private List<Card> generateDeckOpponent() {
         List<Card> deckOpponent = new ArrayList<>();
-        Monster Acolyte2 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard,true, "normal");
-        Monster Baron2 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard,true, "provoke");
-        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard,true,"normal");
-        Monster Murloc = new Monster("Murloc ", 2, 1, opponentBoard,true, "charge");
-        Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte2, opponentHero);
-        Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron2, opponentHero);
+        Monster Acolyte1 = new Monster("Acolyte de la mort ", 4, 3, opponentBoard,true, "normal");
+        Monster Baron1 = new Monster("Baron vaillefendre ", 2, 2, opponentBoard,true, "provoke");
+        Monster Chevalier = new Monster("Chevalier de la mort ", 4, 4, opponentBoard,true, "normal");
+        Monster MagmaDog = new Monster("Chien de magma ", 5, 9, opponentBoard,true, "normal");
+        Monster petitGars = new Monster("Petit gars ", 1, 1, opponentBoard,true, "charge");
+        Monster stormwindGuard = new Monster("Garde de Hurlevent ", 5, 1, opponentBoard,true, "provoke");
+        Monster murloc = new Monster("Murloc ", 2, 1, opponentBoard,true, "charge");
+        Monster dagueTueuse = new Monster("Dague tueuse ", 1, 7, opponentBoard,true, "normal");
+        Monster licheKing = new Monster("Roi liche ", 8, 8, opponentBoard,true, "normal");
+        Monster killerGoblin = new Monster("Gobelin tueur ", 3, 2, opponentBoard,true, "normal");
+
+        Card card = new Card("Acolyte de la mort ", 3, "Mort vivant", Acolyte1, opponentHero);
+        Card card2 = new Card("Baron vaillefendre ", 2, "Mort vivant", Baron1, opponentHero);
         Card card3 = new Card("Chevalier de la mort ", 4, "Mort vivant", Chevalier, opponentHero);
-        Card card4 = new Card("Murloc ", 1, "Murloc", Murloc, opponentHero);
+        Card card4 = new Card("Chien de magma ", 7, "Bête", MagmaDog, opponentHero);
+        Card card5 = new Card("Petit gars ", 1, "Bête", petitGars, opponentHero);
+        Card card6 = new Card("Garde de Hurlevent ", 4, "Humain", stormwindGuard, opponentHero);
+        Card card7 = new Card("Murloc ", 1, "Murloc", murloc, opponentHero);
+        Card card8 = new Card("Dague tueuse ", 3, "Arme", dagueTueuse, opponentHero);
+        Card card9 = new Card("Roi liche ", 8, "Mort vivant", licheKing, opponentHero);
 
         deckOpponent.add(card);
         deckOpponent.add(card2);
         deckOpponent.add(card3);
         deckOpponent.add(card4);
+        deckOpponent.add(card5);
+        deckOpponent.add(card6);
+        deckOpponent.add(card7);
+        deckOpponent.add(card8);
+        deckOpponent.add(card9);
         return deckOpponent;
     }
 
     private void distributeCardsPlayer(List<Card> deck, PlayerHero Hero) {
         // Logique pour distribuer des cartes au Joueur1`
-        for (int i = 0; i < deck.size(); i++) {
-            Card card = deck.get(i);
-            //ajouter une carte à la main du joueur
-            Hero.addCardToHand(card);
+        //generer un nombre aléatoire entre 0 et 20
+        //generer un nombre aléatoire entre 0 et et la taille du deck
+        int randomCard = (int)(Math.random() * deck.size());
+        System.out.println(randomCard);
+        if (randomCard == 0){
+            randomCard = 1;
         }
+        Card card = deck.get(randomCard);
+        //ajouter une carte à la main du joueur
+        Hero.addCardToHand(card);
+        //retirer la carte du deck
+        deck.remove(randomCard);
     }
     private void distributeCardsOpponent(List<Card> deck, OpponentHero Hero) {
         // Logique pour distribuer des cartes au joueur 2
-        for (int i = 0; i < deck.size(); i++) {
-            Card card = deck.get(i); // Retirez la première carte du deck
-            Hero.addCardToHand(card);
-        }
+        //generer un nombre aléatoire entre 0 et et la taille du deck
+        int randomCard = (int)(Math.random() * deck.size());
+        Card card = deck.get(randomCard);
+        //ajouter une carte à la main du joueur
+        Hero.addCardToHand(card);
+        //retirer la carte du deck
+        deck.remove(randomCard);
     }
 
     // Méthode pour démarrer le jeu
@@ -82,6 +126,11 @@ public class Game {
         playerHero.setMana(1);
 
         int manaMax = 1;
+        //distribuer trois cartes à chacun
+        for (int i = 0; i < 3; i++) {
+            distributeCardsPlayer(playerDeck, playerHero);
+            distributeCardsOpponent(opponentDeck, opponentHero);
+        }
 
 
         // Commencer les tours de jeu
@@ -107,6 +156,7 @@ public class Game {
         }
 
         while (currentHero.getMana() >= 0) {
+
             //Méthode pour afficher le board
             opponentBoard.displayOpponentMonsters();
             currentBoard.displayBoard(currentHero, opponentHero);
@@ -353,6 +403,11 @@ public class Game {
         }
         currentBoard.resetMonstre();
         opponentBoard.resetMonstre();
+        if (currentHero.getID() == 0) {
+            distributeCardsPlayer(playerDeck,(PlayerHero) currentHero);
+        } else {
+            distributeCardsOpponent(opponentDeck, (OpponentHero) currentHero);
+        }
     }
 
 
