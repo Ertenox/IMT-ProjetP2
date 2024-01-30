@@ -106,7 +106,7 @@ public class Game {
             currentHero.setMana(tour);
         }
 
-        while (currentHero.getMana() > 0) {
+        while (currentHero.getMana() >= 0) {
             //Méthode pour afficher le board
             opponentBoard.displayOpponentMonsters();
             currentBoard.displayBoard(currentHero, opponentHero);
@@ -205,7 +205,7 @@ public class Game {
                 }
             } else if (choix == 3) {
                 System.out.println("Vous avez choisi de passer le tour");
-                currentHero.setMana(0);
+                break;
             }
             else if (choix == 4) {
                 System.out.print("Quel monstre va attaquer ? : ");
