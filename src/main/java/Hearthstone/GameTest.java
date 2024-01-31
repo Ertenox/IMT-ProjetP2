@@ -42,14 +42,13 @@ public class GameTest {
         Monster monster1 = new Monster("Monstre", 2, 3, board, true, "Neutre");
         board.addPlayerMonster(monster);
         board.addOpponentMonster(monster1);
-        // Joueur actuel joue la carte jusqu'à ce que le héros adversaire soit mis KO
 
+        // Joueur actuel joue la carte jusqu'à ce que le héros adversaire soit mis KO
         monster1.attack(monster);
 
 
-
-        // Vérification si le héros adversaire est mis KO
-        assertEquals(2, monster.getHP());
+        // Vérification si le héros adversaire est mis KO | La vérification est mantenant dynamique et tiens compte des type des monstres
+        assertEquals(5 - monster1.calculDamage(monster), monster.getHP());
     }
 
     @Test
