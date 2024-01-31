@@ -137,7 +137,7 @@ public class Monster implements Entity, Attacker{
             if (target instanceof Monster) {
                 int damageTaken = calculDamage(target);
                 target.takeDamage(damageTaken);
-                System.out.println(this.getName() + " attaque " + target.getName() + " et lui inflige " + damageTaken + " points de dégâts.");
+                System.out.println(this.getName() +" de type " + getElementaryType() + " attaque " + target.getName() + " de type " + ((Monster) target).elementaryType + " et lui inflige " + damageTaken + " points de dégâts.");
                 if(target.getHP() <= 0){
                     if (((Monster) target).getBoard() == this.getBoard()) {
                         System.out.println(target.getName() + " est mort.");
