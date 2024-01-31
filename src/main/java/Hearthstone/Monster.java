@@ -89,11 +89,15 @@ public class Monster implements Entity, Attacker{
         Monster ennemy = (Monster) target;
         String allyType = getElementaryType();
         String enemyType = ennemy.getElementaryType();
+
+        // si le type est super efficace on multiplies les dégats par 2
         if ( (Objects.equals(allyType, "Eau") && (Objects.equals(enemyType, "Feu")))
                 || (Objects.equals(allyType, "Feu") && ( (Objects.equals(enemyType, "Herbe"))))
                 || (Objects.equals(allyType, "Herbe") && (Objects.equals(enemyType, "Eau"))) ){
             return this.attack * 2;
         }
+
+        //si le type n'est pas trés efficace on divise les dégats par 2
         if ( (Objects.equals(allyType, "Feu") && (Objects.equals(enemyType, "Eau")))
                 || (Objects.equals(allyType, "Eau") && ( (Objects.equals(enemyType, "Herbe"))))
                 || (Objects.equals(allyType, "Herbe") && (Objects.equals(enemyType, "Feu"))) ){
@@ -135,6 +139,7 @@ public class Monster implements Entity, Attacker{
         if (target != null) {
 
             if (target instanceof Monster) {
+                // On recupere les dégats en fonction du type
                 int damageTaken = calculDamage(target);
                 target.takeDamage(damageTaken);
                 System.out.println(this.getName() +" de type " + getElementaryType() + " attaque " + target.getName() + " de type " + ((Monster) target).elementaryType + " et lui inflige " + damageTaken + " points de dégâts.");
@@ -149,6 +154,7 @@ public class Monster implements Entity, Attacker{
                 }
 
             } else if (target instanceof Hero) {
+                // les champiosn n'on pas de type donc pas d'impact
                 target.takeDamage(this.attack);
                 System.out.println(this.getName() + " attaque " + target.getName() + " et lui inflige " + this.getAttack() + " points de dégâts.");
             }
