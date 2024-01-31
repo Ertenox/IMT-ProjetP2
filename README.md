@@ -1,5 +1,3 @@
-Aller sur la branche arnaud
-
 Sujet TP COO – 2eme partie
 
 
