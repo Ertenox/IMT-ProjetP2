@@ -154,7 +154,7 @@ public class Monster implements Entity, Attacker{
                 }
 
             } else if (target instanceof Hero) {
-                // les champiosn n'on pas de type donc pas d'impact
+                // les champions n'ont pas de type donc pas d'impact
                 target.takeDamage(this.attack);
                 System.out.println(this.getName() + " attaque " + target.getName() + " et lui inflige " + this.getAttack() + " points de dégâts.");
             }
